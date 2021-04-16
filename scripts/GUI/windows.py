@@ -17,9 +17,23 @@ class MainWindow(QMainWindow):
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
 
+    def addExitAction(self):
+        self.exitAction = QAction('Quit', self)
+        self.exitAction.setShortcut('Ctrl+Q')
+        self.exitAction.setStatusTip('Quit application')
+    
+    def addTrainModelAction(self):
+        self.trainModelAction = QAction('Train Model', self)
+
     def addMenuBar(self):
         menubar = self.menuBar()
+
         fileMenu = menubar.addMenu('&File')
+        self.addTrainModelAction()
+        self.addExitAction()
+        fileMenu.addAction(self.trainModelAction)
+        fileMenu.addAction(self.exitAction)
+
         viewMenu = menubar.addMenu('&View')
 
 class TrainingWindow(QWidget):
