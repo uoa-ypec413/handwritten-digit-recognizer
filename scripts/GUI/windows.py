@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout
 
 class TrainingWindow(QWidget):
 
@@ -8,12 +8,32 @@ class TrainingWindow(QWidget):
         self.setWindowTitle("Dialog")
         self.resize(400, 400)
         self.center()
+        self.addButtons()
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry
         centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
+
+    def addButtons(self):
+        downloadButton = QPushButton('Download MNIST')
+        trainButton = QPushButton('Train')
+        cancelButton = QPushButton('Cancel')
+        cancelButton.clicked.connect(self.close)
+
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(downloadButton)
+        hbox.addWidget(trainButton)
+        hbox.addWidget(cancelButton)
+        hbox.addStretch(1)
+
+        vbox = QVBoxLayout()
+        vbox.addStretch(3)
+        vbox.addLayout(hbox)
+
+        self.setLayout(vbox)
 
 class MainWindow(QMainWindow):
     
