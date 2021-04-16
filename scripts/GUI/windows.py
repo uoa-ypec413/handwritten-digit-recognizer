@@ -20,6 +20,7 @@ class TrainingWindow(QWidget):
         downloadButton = QPushButton('Download MNIST')
         trainButton = QPushButton('Train')
         cancelButton = QPushButton('Cancel')
+        cancelButton.clicked.connect(self.close)
 
         hbox = QHBoxLayout()
         hbox.addStretch(1)
