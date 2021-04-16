@@ -1,6 +1,20 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction
 
+class TrainingWindow(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Dialog")
+        self.resize(400, 400)
+        self.center()
+
+    def center(self):
+        qRectangle = self.frameGeometry() # get window geometry
+        centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
+        qRectangle.moveCenter(centerPosition)
+        self.move(qRectangle.topLeft()) # move window to monitor centre position
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -8,6 +22,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Handwritten Digit Recognizer")
         self.resize(1000, 800)
         self.center()
+        self.trainingWindow = TrainingWindow()
         self.addMenuBar()
         self.show()
 
@@ -25,6 +40,7 @@ class MainWindow(QMainWindow):
     
     def addTrainModelAction(self):
         self.trainModelAction = QAction('Train Model', self)
+        self.trainModelAction.triggered.connect(self.trainingWindow.show)
 
     def addViewTrainingImagesAction(self):
         self.viewTrainingImagesAction = QAction('View Training Images', self)
@@ -47,25 +63,9 @@ class MainWindow(QMainWindow):
         viewMenu.addAction(self.viewTrainingImagesAction)
         viewMenu.addAction(self.viewTestingImagesAction)
 
-class TrainingWindow(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Dialog")
-        self.resize(400, 400)
-        self.center()
-        self.show()
-
-    def center(self):
-        qRectangle = self.frameGeometry() # get window geometry
-        centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
-        qRectangle.moveCenter(centerPosition)
-        self.move(qRectangle.topLeft()) # move window to monitor centre position
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
-    trainingWindow = TrainingWindow()
     sys.exit(app.exec())
 
 
