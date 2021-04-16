@@ -26,6 +26,12 @@ class MainWindow(QMainWindow):
     def addTrainModelAction(self):
         self.trainModelAction = QAction('Train Model', self)
 
+    def addViewTrainingImagesAction(self):
+        self.viewTrainingImagesAction = QAction('View Training Images', self)
+
+    def addViewTestingImagesAction(self):
+        self.viewTestingImagesAction = QAction('View Testing Images', self)
+
     def addMenuBar(self):
         menubar = self.menuBar()
 
@@ -36,6 +42,10 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(self.exitAction)
 
         viewMenu = menubar.addMenu('&View')
+        self.addViewTrainingImagesAction()
+        self.addViewTestingImagesAction()
+        viewMenu.addAction(self.viewTrainingImagesAction)
+        viewMenu.addAction(self.viewTestingImagesAction)
 
 class TrainingWindow(QWidget):
 
