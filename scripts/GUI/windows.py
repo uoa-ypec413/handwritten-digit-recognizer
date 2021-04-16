@@ -21,6 +21,7 @@ class MainWindow(QMainWindow):
         self.exitAction = QAction('Quit', self)
         self.exitAction.setShortcut('Ctrl+Q')
         self.exitAction.setStatusTip('Quit application')
+        self.exitAction.triggered.connect(app.quit)
     
     def addTrainModelAction(self):
         self.trainModelAction = QAction('Train Model', self)
