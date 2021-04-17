@@ -65,12 +65,35 @@ class ViewerWindow(QWidget):
         self.setWindowTitle("Image Viewer")
         self.resize(400, 400)
         self.center()
+        self.addOkButton()
+        self.setBoxLayout()
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry
         centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
+    
+    def onOkButtonClick(self):
+        self.close()
+
+    def addOkButton(self):
+        self.okButton = QPushButton('Ok')
+        self.okButton.clicked.connect(self.onOkButtonClick)
+
+    def setOkButtonLayout(self):
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(self.okButton)
+        
+        return hbox
+
+    def setBoxLayout(self):
+        vbox = QVBoxLayout()
+        vbox.addStretch(1)
+        vbox.addLayout(self.setOkButtonLayout())
+
+        self.setLayout(vbox)
 
 class MainWindow(QMainWindow):
     
