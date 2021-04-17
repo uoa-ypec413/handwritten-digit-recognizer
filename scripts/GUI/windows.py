@@ -9,6 +9,7 @@ class TrainingWindow(QWidget):
         self.setWindowTitle("Dialog")
         self.resize(400, 400)
         self.center()
+        self.addConsole()
         self.addProgressBar()
         self.addButtons()
         self.setBoxLayout()
@@ -30,6 +31,9 @@ class TrainingWindow(QWidget):
 
     def addProgressBar(self):
         self.progressBar = QProgressBar()
+    
+    def addConsole(self):
+        self.console = QTextBrowser()
 
     def setButtonLayout(self):
         hbox = QHBoxLayout()
@@ -48,7 +52,7 @@ class TrainingWindow(QWidget):
         self.setProgressBarLayout()
     
         vbox = QVBoxLayout()
-        vbox.addStretch(1)
+        vbox.addWidget(self.console)
         vbox.addWidget(self.progressBar)
         vbox.addLayout(self.setButtonLayout())
 
