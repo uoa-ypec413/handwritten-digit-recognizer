@@ -58,6 +58,20 @@ class TrainingWindow(QWidget):
 
         self.setLayout(vbox)
 
+class ViewerWindow(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Image Viewer")
+        self.resize(400, 400)
+        self.center()
+
+    def center(self):
+        qRectangle = self.frameGeometry() # get window geometry
+        centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
+        qRectangle.moveCenter(centerPosition)
+        self.move(qRectangle.topLeft()) # move window to monitor centre position
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -66,6 +80,7 @@ class MainWindow(QMainWindow):
         self.resize(1000, 800)
         self.center()
         self.trainingWindow = TrainingWindow()
+        self.viewerWindow = ViewerWindow()
         self.addMenuBar()
         self.show()
 
@@ -87,9 +102,11 @@ class MainWindow(QMainWindow):
 
     def addViewTrainingImagesAction(self):
         self.viewTrainingImagesAction = QAction('View Training Images', self)
+        self.viewTrainingImagesAction.triggered.connect(self.viewerWindow.show)
 
     def addViewTestingImagesAction(self):
         self.viewTestingImagesAction = QAction('View Testing Images', self)
+        self.viewTestingImagesAction.triggered.connect(self.viewerWindow.show)
 
     def addMenuBar(self):
         menubar = self.menuBar()
