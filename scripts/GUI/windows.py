@@ -1,6 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame
 from PyQt5 import QtCore
+from PyQt5.QtGui import QPixmap
+from torch import tensor
+import numpy
 
 class TrainingWindow(QWidget):
 
@@ -58,6 +61,37 @@ class TrainingWindow(QWidget):
 
         self.setLayout(vbox)
 
+class ImageFrame(QFrame):
+
+    def __init__(self):
+        super().__init__()
+        self.setFrameShape(QFrame.Box)
+        self.imageGrid = QGridLayout()
+        self.addImages()
+        self.setLayout(self.imageGrid)
+    
+    def addImages(self):
+        imageArray = []
+        image = QPixmap(28, 28)
+        image.fill(QtCore.Qt.black)
+
+        for i in range(0,16):
+            label = QLabel()
+            label.setPixmap(image)
+            imageArray.append(label)
+
+        row = 0
+        column = 0
+        for images in imageArray:
+            
+            self.imageGrid.addWidget(images, row, column)
+
+            if column == 3:
+                row += 1
+                column = 0
+            else:
+                column += 1
+
 class ViewerWindow(QWidget):
 
     def __init__(self):
@@ -68,6 +102,7 @@ class ViewerWindow(QWidget):
         self.addOkButton()
         self.addDigitSelect()
         self.addAllSelect()
+        self.imageFrame = ImageFrame()
         self.setBoxLayout()
 
     def center(self):
@@ -124,14 +159,21 @@ class ViewerWindow(QWidget):
         
         return hbox
 
-    def setBoxLayout(self):
+    def setButtonLayout(self):
         vbox = QVBoxLayout()
         vbox.addLayout(self.setDigitSelectLayout())
         vbox.addLayout(self.setAllSelectLayout())
         vbox.addStretch(1)
         vbox.addLayout(self.setOkButtonLayout())
 
-        self.setLayout(vbox)
+        return vbox
+
+    def setBoxLayout(self):
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.imageFrame)
+        hbox.addLayout(self.setButtonLayout())
+
+        self.setLayout(hbox)
 
 class MainWindow(QMainWindow):
     
