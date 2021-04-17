@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox
 from PyQt5 import QtCore
 
 class TrainingWindow(QWidget):
@@ -66,6 +66,7 @@ class ViewerWindow(QWidget):
         self.resize(400, 400)
         self.center()
         self.addOkButton()
+        self.addDigitSelect()
         self.setBoxLayout()
 
     def center(self):
@@ -88,8 +89,31 @@ class ViewerWindow(QWidget):
         
         return hbox
 
+    def addDigitSelect(self):
+        self.digitSelectLabel = QLabel('Digit:')
+        self.digitComboBox = QComboBox(self)
+        self.digitComboBox.addItem('0')
+        self.digitComboBox.addItem('1')
+        self.digitComboBox.addItem('2')
+        self.digitComboBox.addItem('3')
+        self.digitComboBox.addItem('4')
+        self.digitComboBox.addItem('5')
+        self.digitComboBox.addItem('6')
+        self.digitComboBox.addItem('7')
+        self.digitComboBox.addItem('8')
+        self.digitComboBox.addItem('9')
+    
+    def setDigitSelectLayout(self):
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(self.digitSelectLabel)
+        hbox.addWidget(self.digitComboBox)
+        
+        return hbox
+
     def setBoxLayout(self):
         vbox = QVBoxLayout()
+        vbox.addLayout(self.setDigitSelectLayout())
         vbox.addStretch(1)
         vbox.addLayout(self.setOkButtonLayout())
 
