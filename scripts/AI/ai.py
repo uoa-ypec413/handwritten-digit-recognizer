@@ -1,4 +1,7 @@
 # This is the script for the AI behind the handwritten digit recognizer program.
+# Current version is 1.0.1, most recent change 1.0.0-->1.0.1: Add header.
+# Model is 2-layer 784-->392, 392-->10
+# Relu function is applied after the first layer
 
 # Include relevant libraries
 from __future__ import print_function # Allows us to do fancier print statements
