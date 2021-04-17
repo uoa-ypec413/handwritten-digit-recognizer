@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox
 from PyQt5 import QtCore
 
 class TrainingWindow(QWidget):
@@ -67,6 +67,7 @@ class ViewerWindow(QWidget):
         self.center()
         self.addOkButton()
         self.addDigitSelect()
+        self.addAllSelect()
         self.setBoxLayout()
 
     def center(self):
@@ -111,9 +112,22 @@ class ViewerWindow(QWidget):
         
         return hbox
 
+    def addAllSelect(self):
+        self.allSelectLabel = QLabel('All')
+        self.allSelectCheckBox = QCheckBox()
+
+    def setAllSelectLayout(self):
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(self.allSelectLabel)
+        hbox.addWidget(self.allSelectCheckBox)
+        
+        return hbox
+
     def setBoxLayout(self):
         vbox = QVBoxLayout()
         vbox.addLayout(self.setDigitSelectLayout())
+        vbox.addLayout(self.setAllSelectLayout())
         vbox.addStretch(1)
         vbox.addLayout(self.setOkButtonLayout())
 
