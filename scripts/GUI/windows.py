@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from torch import tensor
@@ -65,17 +65,17 @@ class ImageFrame(QFrame):
 
     def __init__(self):
         super().__init__()
-        self.setFrameShape(QFrame.Box)
         self.imageGrid = QGridLayout()
         self.addImages()
         self.setLayout(self.imageGrid)
-    
+
     def addImages(self):
         imageArray = []
         image = QPixmap(28, 28)
+        image = image.scaled(100, 100)
         image.fill(QtCore.Qt.black)
 
-        for i in range(0,16):
+        for i in range(0,100):
             label = QLabel()
             label.setPixmap(image)
             imageArray.append(label)
@@ -86,7 +86,7 @@ class ImageFrame(QFrame):
             
             self.imageGrid.addWidget(images, row, column)
 
-            if column == 3:
+            if column == 7:
                 row += 1
                 column = 0
             else:
@@ -97,12 +97,14 @@ class ViewerWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Image Viewer")
-        self.resize(400, 400)
+        self.resize(1100, 800)
         self.center()
         self.addOkButton()
         self.addDigitSelect()
         self.addAllSelect()
         self.imageFrame = ImageFrame()
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setWidget(self.imageFrame)
         self.setBoxLayout()
 
     def center(self):
@@ -120,7 +122,6 @@ class ViewerWindow(QWidget):
 
     def setOkButtonLayout(self):
         hbox = QHBoxLayout()
-        hbox.addStretch(1)
         hbox.addWidget(self.okButton)
         
         return hbox
@@ -141,7 +142,6 @@ class ViewerWindow(QWidget):
     
     def setDigitSelectLayout(self):
         hbox = QHBoxLayout()
-        hbox.addStretch(1)
         hbox.addWidget(self.digitSelectLabel)
         hbox.addWidget(self.digitComboBox)
         
@@ -153,7 +153,6 @@ class ViewerWindow(QWidget):
 
     def setAllSelectLayout(self):
         hbox = QHBoxLayout()
-        hbox.addStretch(1)
         hbox.addWidget(self.allSelectLabel)
         hbox.addWidget(self.allSelectCheckBox)
         
@@ -170,7 +169,7 @@ class ViewerWindow(QWidget):
 
     def setBoxLayout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.imageFrame)
+        hbox.addWidget(self.scrollArea)
         hbox.addLayout(self.setButtonLayout())
 
         self.setLayout(hbox)
