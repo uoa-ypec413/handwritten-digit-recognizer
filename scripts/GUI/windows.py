@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar
+from PyQt5 import QtCore
 
 class TrainingWindow(QWidget):
 
@@ -8,7 +9,10 @@ class TrainingWindow(QWidget):
         self.setWindowTitle("Dialog")
         self.resize(400, 400)
         self.center()
+        self.addConsole()
+        self.addProgressBar()
         self.addButtons()
+        self.setBoxLayout()
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry
@@ -16,22 +20,41 @@ class TrainingWindow(QWidget):
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
 
-    def addButtons(self):
-        downloadButton = QPushButton('Download MNIST')
-        trainButton = QPushButton('Train')
-        cancelButton = QPushButton('Cancel')
-        cancelButton.clicked.connect(self.close)
+    def onCancelButtonClick(self):
+        self.close()
 
+    def addButtons(self):
+        self.downloadButton = QPushButton('Download MNIST')
+        self.trainButton = QPushButton('Train')
+        self.cancelButton = QPushButton('Cancel')
+        self.cancelButton.clicked.connect(self.onCancelButtonClick)
+
+    def addProgressBar(self):
+        self.progressBar = QProgressBar()
+    
+    def addConsole(self):
+        self.console = QTextBrowser()
+
+    def setButtonLayout(self):
         hbox = QHBoxLayout()
         hbox.addStretch(1)
-        hbox.addWidget(downloadButton)
-        hbox.addWidget(trainButton)
-        hbox.addWidget(cancelButton)
+        hbox.addWidget(self.downloadButton)
+        hbox.addWidget(self.trainButton)
+        hbox.addWidget(self.cancelButton)
         hbox.addStretch(1)
 
+        return hbox
+
+    def setProgressBarLayout(self):
+        self.progressBar.setAlignment(QtCore.Qt.AlignCenter)
+
+    def setBoxLayout(self):
+        self.setProgressBarLayout()
+    
         vbox = QVBoxLayout()
-        vbox.addStretch(3)
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.console)
+        vbox.addWidget(self.progressBar)
+        vbox.addLayout(self.setButtonLayout())
 
         self.setLayout(vbox)
 
