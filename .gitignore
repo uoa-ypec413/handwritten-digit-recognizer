@@ -137,5 +137,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# MNIST Datasets
+# Downloaded MNIST Datasets
 MNIST/
