@@ -178,6 +178,8 @@ class CentralWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.addCanvas()
+        self.addClassProbability()
         self.clearButton = QPushButton('Clear')
         self.modelButton = QPushButton('Model')
         self.recogniseButton = QPushButton('Recognise')
@@ -185,6 +187,12 @@ class CentralWidget(QWidget):
         self.addPredictedDigit()
         self.setPredictedDigit()
         self.addBoxLayout()
+
+    def addCanvas(self):
+        # Yulia
+
+    def addClassProbability(self):
+        # Keith
 
     def addBoxLayout(self):
         vbox = QVBoxLayout()
