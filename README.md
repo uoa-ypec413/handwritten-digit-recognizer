@@ -19,6 +19,7 @@
 ## Changelog:
 |Date|Version|Description| 
 |--|--|--|
+|18/04/21|UI-1.1.0|Improve modularity of UI code|
 |18/04/21|UI-1.0.0|Add widgets to main window, complete initial UI|
 |17/04/21|UI-0.4.0|Add widgets to viewer window|
 |17/04/21|UI-0.3.0|Add widgets to training window|
