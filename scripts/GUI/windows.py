@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea, QFileDialog
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QPainter
 from torch import tensor
 import numpy
 
@@ -190,6 +190,11 @@ class CentralWidget(QWidget):
 
     def addCanvas(self):
         # Yulia
+        image = QPixmap(700, 800)
+        image.fill(QtCore.Qt.white)
+        self.canvas = QLabel()
+        self.canvas.setPixmap(image)
+        self.canvas.setStyleSheet("border: 1px solid black;") # set border
 
     def addClassProbability(self):
         # Keith
@@ -202,18 +207,22 @@ class CentralWidget(QWidget):
         vbox.addStretch(1)
         vbox.addWidget(self.predictedDigit)
 
-        self.setLayout(vbox)
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.canvas)
+        hbox.addLayout(vbox)
+
+        self.setLayout(hbox)
 
     def addPredictedDigit(self):
         self.predictedDigit = QLabel()
         self.predictedDigit.setAlignment(QtCore.Qt.AlignCenter)
         font = self.predictedDigit.font()
-        font.setPointSize(20)
+        font.setPointSize(12)
         self.predictedDigit.setFont(font)
         self.predictedDigit.setStyleSheet("border: 1px solid black;") # set border
     
     def setPredictedDigit(self):
-        self.predictedDigit.setText('Predicted digit goes here')
+        self.predictedDigit.setText('3')
 
     def openModel(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file', './') # create file dialog
