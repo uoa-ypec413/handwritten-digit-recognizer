@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea, QFileDialog
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtGui import QPixmap, QPainter, QPen
 from torch import tensor
 import numpy
 import matplotlib
@@ -204,17 +204,37 @@ class CentralWidget(QWidget):
         self.modelButton = QPushButton('Model')
         self.recogniseButton = QPushButton('Recognise')
         self.modelButton.clicked.connect(self.openModel)
+        self.clearButton.clicked.connect(self.clearCanvas)
         self.addPredictedDigit()
         self.setPredictedDigit()
         self.addBoxLayout()
 
     def addCanvas(self):
-        # Yulia
-        image = QPixmap(700, 800)
-        image.fill(QtCore.Qt.white)
+        self.image = QPixmap(700, 800)
+        self.image.fill(QtCore.Qt.white)
         self.canvas = QLabel()
-        self.canvas.setPixmap(image)
+        self.canvas.setPixmap(self.image)
         self.canvas.setStyleSheet("border: 1px solid black;") # set border
+
+        self.lastPos = None
+
+    def mouseMoveEvent(self, event):
+        if self.lastPos is None: # On the first mouse event, do not paint, just save position
+            self.lastPos = event.pos()
+        else:
+            self.painter = QPainter(self.canvas.pixmap())
+            self.painter.setPen(QPen(QtCore.Qt.black,  12, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
+            self.painter.drawLine(self.lastPos, event.pos())
+            self.painter.end()
+
+            self.lastPos = event.pos()
+            self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.lastPos = None
+
+    def clearCanvas(self):
+        self.canvas.setPixmap(self.image)
 
     def addClassProbability(self):
         # Keith
