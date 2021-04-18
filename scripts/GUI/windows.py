@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea, QFileDialog
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap, QPainter, QPen
+from PyQt5.QtGui import QPixmap, QPainter, QPen, QCursor
 from torch import tensor
 import numpy
 import matplotlib
@@ -215,6 +215,7 @@ class CentralWidget(QWidget):
         self.canvas = QLabel()
         self.canvas.setPixmap(self.image)
         self.canvas.setStyleSheet("border: 1px solid black;") # set border
+        self.canvas.setCursor(QCursor(QtCore.Qt.CrossCursor))
 
         self.lastPos = None
 
@@ -258,7 +259,7 @@ class CentralWidget(QWidget):
         self.predictedDigit = QLabel()
         self.predictedDigit.setAlignment(QtCore.Qt.AlignCenter)
         font = self.predictedDigit.font()
-        font.setPointSize(12)
+        font.setPointSize(36)
         self.predictedDigit.setFont(font)
         self.predictedDigit.setStyleSheet("border: 1px solid black;") # set border
     
