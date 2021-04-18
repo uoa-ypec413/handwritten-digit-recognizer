@@ -4,6 +4,10 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QPainter
 from torch import tensor
 import numpy
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 
 class TrainingWindow(QWidget):
 
@@ -174,6 +178,22 @@ class ViewerWindow(QWidget):
 
         self.setLayout(hbox)
 
+class probabilityPlot(FigureCanvasQTAgg):
+
+    def __init__(self):
+        fig = Figure()
+        self.axes = fig.add_subplot(111)
+        self.axes.set_xlabel('Probability (%)')
+        self.axes.set_xlim(0,100)
+
+        classes = numpy.arange(0,10)
+        probabilities = [5,10,20,40,20,10,5,0,0,0]
+
+        self.axes.set_yticks(classes)
+        self.axes.barh(classes,probabilities)
+
+        FigureCanvasQTAgg.__init__(self, fig)
+
 class CentralWidget(QWidget):
 
     def __init__(self):
@@ -198,13 +218,14 @@ class CentralWidget(QWidget):
 
     def addClassProbability(self):
         # Keith
+        self.classProbability = probabilityPlot()
 
     def addBoxLayout(self):
         vbox = QVBoxLayout()
         vbox.addWidget(self.clearButton)
         vbox.addWidget(self.modelButton)
         vbox.addWidget(self.recogniseButton)
-        vbox.addStretch(1)
+        vbox.addWidget(self.classProbability)
         vbox.addWidget(self.predictedDigit)
 
         hbox = QHBoxLayout()
