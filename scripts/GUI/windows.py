@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea, QFileDialog
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from torch import tensor
@@ -181,6 +181,7 @@ class CentralWidget(QWidget):
         self.clearButton = QPushButton('Clear')
         self.modelButton = QPushButton('Model')
         self.recogniseButton = QPushButton('Recognise')
+        self.modelButton.clicked.connect(self.openModel)
         self.addPredictedDigit()
         self.setPredictedDigit()
         self.addBoxLayout()
@@ -205,6 +206,11 @@ class CentralWidget(QWidget):
     
     def setPredictedDigit(self):
         self.predictedDigit.setText('Predicted digit goes here')
+
+    def openModel(self):
+        fname = QFileDialog.getOpenFileName(self, 'Open file', './') # create file dialog
+        if fname[0]:
+            f = open(fname[0], 'r')
 
 class MainWindow(QMainWindow):
     
