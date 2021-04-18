@@ -174,6 +174,38 @@ class ViewerWindow(QWidget):
 
         self.setLayout(hbox)
 
+class CentralWidget(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.clearButton = QPushButton('Clear')
+        self.modelButton = QPushButton('Model')
+        self.recogniseButton = QPushButton('Recognise')
+        self.addPredictedDigit()
+        self.setPredictedDigit()
+        self.addBoxLayout()
+
+    def addBoxLayout(self):
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.clearButton)
+        vbox.addWidget(self.modelButton)
+        vbox.addWidget(self.recogniseButton)
+        vbox.addStretch(1)
+        vbox.addWidget(self.predictedDigit)
+
+        self.setLayout(vbox)
+
+    def addPredictedDigit(self):
+        self.predictedDigit = QLabel()
+        self.predictedDigit.setAlignment(QtCore.Qt.AlignCenter)
+        font = self.predictedDigit.font()
+        font.setPointSize(20)
+        self.predictedDigit.setFont(font)
+        self.predictedDigit.setStyleSheet("border: 1px solid black;") # set border
+    
+    def setPredictedDigit(self):
+        self.predictedDigit.setText('Predicted digit goes here')
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -184,6 +216,7 @@ class MainWindow(QMainWindow):
         self.trainingWindow = TrainingWindow()
         self.viewerWindow = ViewerWindow()
         self.addMenuBar()
+        self.setCentralWidget(CentralWidget())
         self.show()
 
     def center(self):
