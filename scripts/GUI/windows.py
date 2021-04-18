@@ -1,9 +1,13 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDesktopWidget, QAction, QPushButton, QHBoxLayout, QVBoxLayout, QTextBrowser, QProgressBar, QLabel, QComboBox, QCheckBox, QGridLayout, QFrame, QScrollArea, QFileDialog
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QPainter, QPen, QCursor
 from torch import tensor
 import numpy
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 
 class TrainingWindow(QWidget):
 
@@ -174,6 +178,101 @@ class ViewerWindow(QWidget):
 
         self.setLayout(hbox)
 
+class probabilityPlot(FigureCanvasQTAgg):
+
+    def __init__(self):
+        fig = Figure()
+        self.axes = fig.add_subplot(111)
+        self.axes.set_xlabel('Probability (%)')
+        self.axes.set_xlim(0,100)
+
+        classes = numpy.arange(0,10)
+        probabilities = [5,10,20,40,20,10,5,0,0,0]
+
+        self.axes.set_yticks(classes)
+        self.axes.barh(classes,probabilities)
+
+        FigureCanvasQTAgg.__init__(self, fig)
+
+class CentralWidget(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.addCanvas()
+        self.addClassProbability()
+        self.clearButton = QPushButton('Clear')
+        self.modelButton = QPushButton('Model')
+        self.recogniseButton = QPushButton('Recognise')
+        self.modelButton.clicked.connect(self.openModel)
+        self.clearButton.clicked.connect(self.clearCanvas)
+        self.addPredictedDigit()
+        self.setPredictedDigit()
+        self.addBoxLayout()
+
+    def addCanvas(self):
+        self.image = QPixmap(700, 800)
+        self.image.fill(QtCore.Qt.white)
+        self.canvas = QLabel()
+        self.canvas.setPixmap(self.image)
+        self.canvas.setStyleSheet("border: 1px solid black;") # set border
+        self.canvas.setCursor(QCursor(QtCore.Qt.CrossCursor))
+
+        self.lastPos = None
+
+    def mouseMoveEvent(self, event):
+        if self.lastPos is None: # On the first mouse event, do not paint, just save position
+            self.lastPos = event.pos()
+            self.lastPos += QtCore.QPoint(-10,-10) # Offset last position to be at tip of cursor
+        else:
+            currentPos = event.pos() + QtCore.QPoint(-10,-10)
+            self.painter = QPainter(self.canvas.pixmap())
+            self.painter.setPen(QPen(QtCore.Qt.black,  12, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
+            self.painter.drawLine(self.lastPos, currentPos)
+            self.painter.end()
+
+            self.lastPos = currentPos
+            self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.lastPos = None
+
+    def clearCanvas(self):
+        self.canvas.setPixmap(self.image)
+
+    def addClassProbability(self):
+        # Keith
+        self.classProbability = probabilityPlot()
+
+    def addBoxLayout(self):
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.clearButton)
+        vbox.addWidget(self.modelButton)
+        vbox.addWidget(self.recogniseButton)
+        vbox.addWidget(self.classProbability)
+        vbox.addWidget(self.predictedDigit)
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.canvas)
+        hbox.addLayout(vbox)
+
+        self.setLayout(hbox)
+
+    def addPredictedDigit(self):
+        self.predictedDigit = QLabel()
+        self.predictedDigit.setAlignment(QtCore.Qt.AlignCenter)
+        font = self.predictedDigit.font()
+        font.setPointSize(36)
+        self.predictedDigit.setFont(font)
+        self.predictedDigit.setStyleSheet("border: 1px solid black;") # set border
+    
+    def setPredictedDigit(self):
+        self.predictedDigit.setText('3')
+
+    def openModel(self):
+        fname = QFileDialog.getOpenFileName(self, 'Open file', './') # create file dialog
+        if fname[0]:
+            f = open(fname[0], 'r')
+
 class MainWindow(QMainWindow):
     
     def __init__(self):
@@ -184,6 +283,7 @@ class MainWindow(QMainWindow):
         self.trainingWindow = TrainingWindow()
         self.viewerWindow = ViewerWindow()
         self.addMenuBar()
+        self.setCentralWidget(CentralWidget())
         self.show()
 
     def center(self):
