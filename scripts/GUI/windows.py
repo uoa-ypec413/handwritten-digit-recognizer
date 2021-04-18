@@ -222,13 +222,15 @@ class CentralWidget(QWidget):
     def mouseMoveEvent(self, event):
         if self.lastPos is None: # On the first mouse event, do not paint, just save position
             self.lastPos = event.pos()
+            self.lastPos += QtCore.QPoint(-10,-10) # Offset last position to be at tip of cursor
         else:
+            currentPos = event.pos() + QtCore.QPoint(-10,-10)
             self.painter = QPainter(self.canvas.pixmap())
             self.painter.setPen(QPen(QtCore.Qt.black,  12, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
-            self.painter.drawLine(self.lastPos, event.pos())
+            self.painter.drawLine(self.lastPos, currentPos)
             self.painter.end()
 
-            self.lastPos = event.pos()
+            self.lastPos = currentPos
             self.update()
 
     def mouseReleaseEvent(self, event):
