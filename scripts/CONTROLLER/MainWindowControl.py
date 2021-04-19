@@ -1,12 +1,15 @@
 from GUI.mainwindow import *
+from CONTROLLER.CentralWidgetControl import *
 
 class MainWindowControl():
     def __init__(self, app):
         self.mainWindow = MainWindow(app)
+        self.centralWidgetController = CentralWidgetControl(self.mainWindow)
         self.onExitActionClick()
         self.onTrainModelActionClick()
         self.onTrainingImagesActionClick()
         self.onTestingImagesActionClick()
+
     
     def onExitActionClick(self):
         self.mainWindow.exitAction.triggered.connect(self.mainWindow.quitWindow)

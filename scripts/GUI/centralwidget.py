@@ -1,21 +1,25 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QLabel
 from PyQt5 import QtCore
 from GUI.probabilityplot import *
-from CONTROLLER.CanvasControl import *
 
 class CentralWidget(QWidget):
 
-    def __init__(self):
+    def __init__(self, controller):
         super().__init__()
-        self.classProbability = probabilityPlot()
-        self.canvasController = canvasController()
+
+        self.controller = controller
+        self.controller.setCentralWidget(self)
+
         self.clearButton = QPushButton('Clear')
         self.modelButton = QPushButton('Model')
         self.recogniseButton = QPushButton('Recognise')
-        self.modelButton.clicked.connect(self.openModel)
-        self.clearButton.clicked.connect(self.canvasController.clear)
+
+        self.modelButton.clicked.connect(self.controller.openModel)
+        self.clearButton.clicked.connect(self.controller.canvasController.clear)
+
         self.addPredictedDigit()
         self.setPredictedDigit(' ')
+
         self.addBoxLayout()
 
     def addBoxLayout(self):
@@ -23,11 +27,11 @@ class CentralWidget(QWidget):
         vbox.addWidget(self.clearButton)
         vbox.addWidget(self.modelButton)
         vbox.addWidget(self.recogniseButton)
-        vbox.addWidget(self.classProbability)
+        vbox.addWidget(self.controller.probabilityController.plot)
         vbox.addWidget(self.predictedDigit)
 
         hbox = QHBoxLayout()
-        hbox.addWidget(self.canvasController.canvas)
+        hbox.addWidget(self.controller.canvasController.canvas)
         hbox.addLayout(vbox)
 
         self.setLayout(hbox)
@@ -42,8 +46,3 @@ class CentralWidget(QWidget):
     
     def setPredictedDigit(self, d):
         self.predictedDigit.setText(d)
-
-    def openModel(self):
-        fname = QFileDialog.getOpenFileName(self, 'Open file', './') # create file dialog
-        if fname[0]:
-            f = open(fname[0], 'r')
