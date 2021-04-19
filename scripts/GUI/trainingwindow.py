@@ -20,14 +20,10 @@ class TrainingWindow(QWidget):
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
 
-    def onCancelButtonClick(self):
-        self.close()
-
     def addButtons(self):
         self.downloadButton = QPushButton('Download MNIST')
         self.trainButton = QPushButton('Train')
         self.cancelButton = QPushButton('Cancel')
-        self.cancelButton.clicked.connect(self.onCancelButtonClick)
 
     def addProgressBar(self):
         self.progressBar = QProgressBar()

@@ -1,8 +1,10 @@
 from GUI.mainwindow import *
+from CONTROLLER.TrainingWindowControl import *
 
 class MainWindowControl():
     def __init__(self, app):
         self.mainWindow = MainWindow(app)
+        self.trainingWindowControl = TrainingWindowControl(self.mainWindow.trainingWindow)
         self.onExitActionClick()
         self.onTrainModelActionClick()
     
