@@ -2,8 +2,10 @@
 
 #from GUI.mainwindow import *
 from CONTROLLER.MainWindowControl import *
+from CONTROLLER.DigitRecogniserController import *
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    mainWindowControl = MainWindowControl(app)
+    digit_recogniser_controller = DigitRecogniserController()
+    main_window_control = MainWindowControl(app, digit_recogniser_controller)
     sys.exit(app.exec())

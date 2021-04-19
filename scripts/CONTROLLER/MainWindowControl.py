@@ -2,14 +2,14 @@ from GUI.mainwindow import *
 from CONTROLLER.TrainingWindowControl import *
 
 class MainWindowControl():
-    def __init__(self, app):
-        self.mainWindow = MainWindow(app)
-        self.trainingWindowControl = TrainingWindowControl(self.mainWindow.trainingWindow)
+    def __init__(self, app, digit_recogniser_controller):
+        self.main_window = MainWindow(app)
+        self.trainingWindowControl = TrainingWindowControl(self.main_window.trainingWindow, digit_recogniser_controller)
         self.onExitActionClick()
         self.onTrainModelActionClick()
     
     def onExitActionClick(self):
-        self.mainWindow.exitAction.triggered.connect(self.mainWindow.quitWindow)
+        self.main_window.exitAction.triggered.connect(self.main_window.quitWindow)
 
     def onTrainModelActionClick(self):
-        self.mainWindow.trainModelAction.triggered.connect(self.mainWindow.showTrainingWindow)
+        self.main_window.trainModelAction.triggered.connect(self.main_window.showTrainingWindow)

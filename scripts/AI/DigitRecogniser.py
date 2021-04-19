@@ -20,7 +20,7 @@ class DigitRecogniser():
 
     def create_model(self):
         self.model = Net()
-        self.model.to(device)
+        self.model.to(self.device)
         # Use cross entropy loss function
         self.criterion = nn.CrossEntropyLoss()
         # Try optimising with basic stochastic gradient descent setup first
