@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog
 from PyQt5 import QtCore
-from probabilityplot import *
-from canvas import *
+from GUI.probabilityplot import *
+from GUI.canvas import *
 
 class CentralWidget(QWidget):
 

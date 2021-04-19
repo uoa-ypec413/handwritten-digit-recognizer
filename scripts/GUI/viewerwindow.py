@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from imageframe import *
+from GUI.imageframe import *
 
 class ViewerWindow(QWidget):
 
