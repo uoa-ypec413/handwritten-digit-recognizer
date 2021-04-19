@@ -6,3 +6,7 @@ class DigitRecogniserController():
 
     def download_data(self):
         self.digit_recogniser.data.import_dataset()
+
+    def train(self):
+        self.digit_recogniser.data.load_dataset(self.digit_recogniser.batch_size)
+        self.digit_recogniser.train_model()

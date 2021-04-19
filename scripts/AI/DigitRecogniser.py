@@ -34,7 +34,7 @@ class DigitRecogniser():
         for batch_idx, (data, target) in enumerate(self.data.train_loader): # iterate through the training dataset
             data, target = data.to(self.device), target.to(self.device)
             self.optimizer.zero_grad()
-            output = model(data)
+            output = self.model(data)
             loss = self.criterion(output, target)
             loss.backward()
             self.optimizer.step()
@@ -45,29 +45,29 @@ class DigitRecogniser():
 
     def test(self):
         self.model.eval()
-        self.test_loss = 0
-        self.correct = 0
+        test_loss = 0
+        correct = 0
         for data, target in self.data.test_loader:
             data, target = data.to(self.device), target.to(self.device)
             output = self.model(data)
             # sum up batch loss
-            test_loss += criterion(output, target).item()
+            test_loss += self.criterion(output, target).item()
             # get the index of the max
             pred = output.data.max(1, keepdim=True)[1]
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
-        test_loss /= len(test_loader.dataset)
-        print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(test_loader.dataset)} '
-            f'({100. * correct / len(test_loader.dataset):.0f}%)')
+        test_loss /= len(self.data.test_loader.dataset)
+        print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.data.test_loader.dataset)} '
+            f'({100. * correct / len(self.data.test_loader.dataset):.0f}%)')
 
     def train_model(self):
         since = time.time()
         for epoch in range(1, 10):
             epoch_start = time.time()
-            train_network(epoch)
+            self.train_network(epoch)
             m, s = divmod(time.time() - epoch_start, 60)
             print(f'Training time: {m:.0f}m {s:.0f}s')
-            test()
+            self.test()
             m, s = divmod(time.time() - epoch_start, 60)
             print(f'Testing time: {m:.0f}m {s:.0f}s')
 

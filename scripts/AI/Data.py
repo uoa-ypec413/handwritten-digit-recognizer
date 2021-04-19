@@ -16,12 +16,12 @@ class Data():
                                         train=False,
                                         transform=transforms.ToTensor())
         print('Finished donwloading both datasets')
-    def load_dataset(self):
+    def load_dataset(self, batch_size):
         # Data Loader (Input Pipeline)
-        self.train_loader = data.DataLoader(dataset=train_dataset,
+        self.train_loader = data.DataLoader(dataset=self.train_dataset,
                                         batch_size=batch_size,
                                         shuffle=True)
 
-        self.test_loader = data.DataLoader(dataset=test_dataset,
+        self.test_loader = data.DataLoader(dataset=self.test_dataset,
                                         batch_size=batch_size,
                                         shuffle=False)
