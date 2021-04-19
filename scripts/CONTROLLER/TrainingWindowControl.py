@@ -18,3 +18,6 @@ class TrainingWindowControl():
 
     def on_train_button_click(self):
         self.training_window.trainButton.clicked.connect(self.digit_recogniser_controller.train)
+
+    def update_console(self, message):
+        self.training_window.appendConsole(message)
