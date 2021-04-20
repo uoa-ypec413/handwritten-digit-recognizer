@@ -1,6 +1,5 @@
 # this is the main file for project 1.
 
-#from GUI.mainwindow import *
 from CONTROLLER.MainWindowControl import *
 from CONTROLLER.DigitRecogniserController import *
 

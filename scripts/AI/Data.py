@@ -1,7 +1,6 @@
 from torchvision import datasets, transforms
 from torch.utils import data
 
-
 class Data():
 
     def import_train_dataset(self):

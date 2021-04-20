@@ -29,11 +29,11 @@ class TrainingWindow(QWidget):
         self.progressBar = QProgressBar()
     
     def addConsole(self):
-        self.console = QTextEdit()
+        self.console = QPlainTextEdit()
         self.console.setReadOnly(True)
     
     def appendConsole(self, message):
-        self.console.append(message)
+        self.console.insertPlainText(message)
 
     def setButtonLayout(self):
         hbox = QHBoxLayout()
