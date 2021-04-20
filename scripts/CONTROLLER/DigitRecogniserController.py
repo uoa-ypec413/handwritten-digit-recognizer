@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSignal
 class DownloadWorker(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
+    status = pyqtSignal(str)
 
     def __init__(self, training_window_control, digit_recogniser):
         super().__init__()
@@ -14,13 +15,13 @@ class DownloadWorker(QObject):
 
     def run(self):
         self.progress.emit(5)
-        self.training_window_control.update_console('Downloading train dataset...\n')
+        self.status.emit('Downloading train dataset...\n')
         self.digit_recogniser.data.import_train_dataset()
         self.progress.emit(85)
-        self.training_window_control.update_console('Downloaded train dataset...\n')
-        self.training_window_control.update_console('Downloading test dataset...\n')
+        self.status.emit('Downloaded train dataset...\n')
+        self.status.emit('Downloading test dataset...\n')
         self.digit_recogniser.data.import_test_dataset()
-        self.training_window_control.update_console('Downloaded test dataset...\n')
+        self.status.emit('Downloaded test dataset...\n')
         self.progress.emit(100)
         self.finished.emit()
 
@@ -42,6 +43,7 @@ class DigitRecogniserController():
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.worker.progress.connect(self.training_window_control.on_progress_update)
+        self.worker.status.connect(self.training_window_control.update_console)
         
         self.thread.start()
 
