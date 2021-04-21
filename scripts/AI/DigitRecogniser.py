@@ -10,6 +10,8 @@ import time # Lets us timestamp things nicely, makes working with time units sim
 from AI.NN import Net
 from AI.Data import Data
 from PyQt5.QtCore import pyqtSignal, QObject
+from torchvision import transforms, io
+import torch.nn.functional as F
 
 class DigitRecogniser(QObject):
     progress_signal = pyqtSignal(int)
@@ -101,3 +103,21 @@ class DigitRecogniser(QObject):
     def save_model(self):
         save(self.model.state_dict(), 'trained_models/trained.pth')
         print('Model saved')
+
+    def recognise_user_digit(self):
+        image = io.read_image('user_data/digit_drawing.png')
+        user_input_process = transforms.Compose([transforms.Grayscale()])
+        image = user_input_process(image)
+        image = transforms.functional.invert(image) / 255
+        output = F.softmax(self.model(image))
+        print(f'Probability of each possible digit:\n\
+        0: {output[0][0]*100:.0f}%,\n\
+        1: {output[0][1]*100:.0f}%,\n\
+        2: {output[0][2]*100:.0f}%,\n\
+        3: {output[0][3]*100:.0f}%,\n\
+        4: {output[0][4]*100:.0f}%,\n\
+        5: {output[0][5]*100:.0f}%,\n\
+        6: {output[0][6]*100:.0f}%,\n\
+        7: {output[0][7]*100:.0f}%,\n\
+        8: {output[0][8]*100:.0f}%,\n\
+        9: {output[0][9]*100:.0f}%,\n')

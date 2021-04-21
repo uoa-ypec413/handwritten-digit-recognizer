@@ -93,5 +93,8 @@ class DigitRecogniserController():
         if self.train_thread.isRunning:
             self.digit_recogniser.cancel_train_model()
 
+    def recognise_digit(self):
+        self.digit_recogniser.recognise_user_digit()
+
 
 
