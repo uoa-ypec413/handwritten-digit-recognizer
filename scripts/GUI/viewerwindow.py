@@ -1,33 +1,29 @@
 from PyQt5.QtWidgets import *
-from imageframe import *
+from GUI.imageframe import *
+import numpy
 
 class ViewerWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self, name: str):
         super().__init__()
-        self.setWindowTitle("Image Viewer")
-        self.resize(1100, 800)
-        self.center()
-        self.addOkButton()
-        self.addDigitSelect()
-        self.addAllSelect()
-        self.imageFrame = ImageFrame()
-        self.scrollArea = QScrollArea()
-        self.scrollArea.setWidget(self.imageFrame)
-        self.setBoxLayout()
+        self.name = name
+
+        if self.name == 'train':
+            self.setWindowTitle('Training Dataset Viewer')
+        elif self.name == 'test':
+            self.setWindowTitle('Testing Dataset Viewer')
+        
+        self.display()
+        
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry
         centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
-    
-    def onOkButtonClick(self):
-        self.close()
 
     def addOkButton(self):
         self.okButton = QPushButton('Ok')
-        self.okButton.clicked.connect(self.onOkButtonClick)
 
     def setOkButtonLayout(self):
         hbox = QHBoxLayout()
@@ -35,20 +31,27 @@ class ViewerWindow(QWidget):
         
         return hbox
 
+    def addPageSelect(self):
+        self.pageSelectLabel = QLabel('Page:')
+        self.pageComboBox = QComboBox(self)
+        pages = numpy.arange(60)
+        for page in pages:
+            self.pageComboBox.addItem(str(page))
+
     def addDigitSelect(self):
         self.digitSelectLabel = QLabel('Digit:')
         self.digitComboBox = QComboBox(self)
-        self.digitComboBox.addItem('0')
-        self.digitComboBox.addItem('1')
-        self.digitComboBox.addItem('2')
-        self.digitComboBox.addItem('3')
-        self.digitComboBox.addItem('4')
-        self.digitComboBox.addItem('5')
-        self.digitComboBox.addItem('6')
-        self.digitComboBox.addItem('7')
-        self.digitComboBox.addItem('8')
-        self.digitComboBox.addItem('9')
+        digits = numpy.arange(10)
+        for digit in digits:
+            self.digitComboBox.addItem(str(digit))
     
+    def setPageSelectLayout(self):
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.pageSelectLabel)
+        hbox.addWidget(self.pageComboBox)
+        
+        return hbox
+
     def setDigitSelectLayout(self):
         hbox = QHBoxLayout()
         hbox.addWidget(self.digitSelectLabel)
@@ -69,6 +72,7 @@ class ViewerWindow(QWidget):
 
     def setButtonLayout(self):
         vbox = QVBoxLayout()
+        vbox.addLayout(self.setPageSelectLayout())
         vbox.addLayout(self.setDigitSelectLayout())
         vbox.addLayout(self.setAllSelectLayout())
         vbox.addStretch(1)
@@ -82,3 +86,13 @@ class ViewerWindow(QWidget):
         hbox.addLayout(self.setButtonLayout())
 
         self.setLayout(hbox)
+
+    def display(self):
+        self.resize(1100, 800)
+        self.center()
+        self.addOkButton()
+        self.addAllSelect()
+        self.addPageSelect()
+        self.addDigitSelect()
+        self.scrollArea = QScrollArea()
+        self.setBoxLayout()

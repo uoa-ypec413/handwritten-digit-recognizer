@@ -139,3 +139,4 @@ cython_debug/
 
 # Downloaded MNIST Datasets
 MNIST/
+user_data/digit_drawing.jpg
