@@ -92,7 +92,8 @@ class DigitRecogniser(QObject):
             print(f'Testing time: {m:.0f}m {s:.0f}s')
 
         if self.run_flag == False:
-            self.status_signal.emit('Cancelled training')
+            self.status_signal.emit('Cancelled training\n')
+            self.progress_signal.emit(0)
         else:
             m, s = divmod(time.time() - since, 60)
             print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
