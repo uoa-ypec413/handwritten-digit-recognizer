@@ -24,3 +24,6 @@ class CentralWidgetControl():
 
     def on_recognise_button_click(self):
         self.centralWidget.recogniseButton.clicked.connect(self.digit_recogniser_controller.recognise_digit)
+
+    def set_predicted_digit(self, digit):
+        self.centralWidget.setPredictedDigit(digit)

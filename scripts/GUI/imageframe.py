@@ -17,7 +17,7 @@ class ImageFrame(QFrame):
         self.image = QPixmap(28, 28)
         self.image = self.image.scaled(100, 100)
 
-        for i in range(0,60000):
+        for i in range(0,60):
             self.image.fill(self.colour_array[random.randrange(0, 7)])
             label = QLabel()
             label.setPixmap(self.image)
@@ -28,7 +28,8 @@ class ImageFrame(QFrame):
 
     def addImages(self):
 
-        range = (self.page * 1000, (self.page + 1) * 1000)
+        #range = (self.page * 1000, (self.page + 1) * 1000)
+        range = (0,60)
         self.image_range = self.imageArray[range[0]:range[1]]
 
         row = 0

@@ -71,6 +71,7 @@ class DigitRecogniser(QObject):
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
         test_loss /= len(self.data.test_loader.dataset)
+        self.status_signal.emit(f'Accuracy: {(correct/len(self.data.test_loader.dataset)) * 100:.0f}%\n')
         print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.data.test_loader.dataset)} '
             f'({100. * correct / len(self.data.test_loader.dataset):.0f}%)')
 
@@ -80,11 +81,11 @@ class DigitRecogniser(QObject):
     def train_model(self):
         since = time.time()
         self.run_flag = True
-        for epoch in range(1, 10):
+        for epoch in range(1, 11):
             if self.run_flag == False:
                 break
 
-            self.status_signal.emit(f'Training Epoch: {epoch} of 3\n')
+            self.status_signal.emit(f'Training Epoch: {epoch} of 10\n')
             epoch_start = time.time()
             self.train_network(epoch)
             m, s = divmod(time.time() - epoch_start, 60)
@@ -105,7 +106,7 @@ class DigitRecogniser(QObject):
         print('Model saved')
 
     def recognise_user_digit(self):
-        image = io.read_image('user_data/digit_drawing.png')
+        image = io.read_image('user_data/digit_drawing.jpg')
         user_input_process = transforms.Compose([transforms.Grayscale()])
         image = user_input_process(image)
         image = transforms.functional.invert(image) / 255
@@ -121,3 +122,4 @@ class DigitRecogniser(QObject):
         7: {output[0][7]*100:.0f}%,\n\
         8: {output[0][8]*100:.0f}%,\n\
         9: {output[0][9]*100:.0f}%,\n')
+        return output[0]
