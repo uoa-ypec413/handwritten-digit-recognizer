@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QAction, QApplication
-from GUI.centralwidget import *
 from GUI.viewerwindow import *
 from GUI.trainingwindow import *
 
@@ -12,17 +11,23 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Handwritten Digit Recognizer")
         self.resize(1000, 800)
         self.center()
-        self.trainingWindow = TrainingWindow()
-        self.viewerWindow = ViewerWindow()
+        self.trainingWindow = TrainingWindow() # Should be moved to control
+        self.trainingViewerWindow = ViewerWindow("Training Image Viewer") # Should be moved to control
+        self.testingViewerWindow = ViewerWindow("Testing Image Viewer") # Should be moved to control
         self.addMenuBar()
-        self.setCentralWidget(CentralWidget())
         self.show()
 
-    def quitWindow(self):
+    def quitWindow(self): # Should be moved to control
         self.app.quit()
 
     def showTrainingWindow(self):
         self.trainingWindow.show()
+    
+    def showTrainingViewerWindow(self):
+        self.trainingViewerWindow.show()
+    
+    def showTestingViewerWindow(self):
+        self.testingViewerWindow.show()
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry
@@ -40,11 +45,9 @@ class MainWindow(QMainWindow):
 
     def addViewTrainingImagesAction(self):
         self.viewTrainingImagesAction = QAction('View Training Images', self)
-        self.viewTrainingImagesAction.triggered.connect(self.viewerWindow.show)
 
     def addViewTestingImagesAction(self):
         self.viewTestingImagesAction = QAction('View Testing Images', self)
-        self.viewTestingImagesAction.triggered.connect(self.viewerWindow.show)
 
     def addMenuBar(self):
         menubar = self.menuBar()

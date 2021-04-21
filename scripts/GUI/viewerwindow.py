@@ -3,9 +3,9 @@ from GUI.imageframe import *
 
 class ViewerWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self, title):
         super().__init__()
-        self.setWindowTitle("Image Viewer")
+        self.setWindowTitle(title)
         self.resize(1100, 800)
         self.center()
         self.addOkButton()
