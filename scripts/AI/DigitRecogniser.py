@@ -37,12 +37,16 @@ class DigitRecogniser(QObject):
     def train_network(self, epoch):
         self.model.train() # Puts the model into training mode
         for batch_idx, (data, target) in enumerate(self.data.train_loader): # iterate through the training dataset
+            if self.run_flag == False:
+                return
+
             data, target = data.to(self.device), target.to(self.device)
             self.optimizer.zero_grad()
             output = self.model(data)
             loss = self.criterion(output, target)
             loss.backward()
             self.optimizer.step()
+
             if batch_idx % 10 == 0:
                 portion_completed = 100. * batch_idx / len(self.data.train_loader)
                 self.progress_signal.emit(int(portion_completed))
@@ -68,9 +72,16 @@ class DigitRecogniser(QObject):
         print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.data.test_loader.dataset)} '
             f'({100. * correct / len(self.data.test_loader.dataset):.0f}%)')
 
+    def cancel_train_model(self):
+        self.run_flag = False
+
     def train_model(self):
         since = time.time()
+        self.run_flag = True
         for epoch in range(1, 10):
+            if self.run_flag == False:
+                break
+
             self.status_signal.emit(f'Training Epoch: {epoch} of 3\n')
             epoch_start = time.time()
             self.train_network(epoch)
@@ -80,9 +91,11 @@ class DigitRecogniser(QObject):
             m, s = divmod(time.time() - epoch_start, 60)
             print(f'Testing time: {m:.0f}m {s:.0f}s')
 
-        m, s = divmod(time.time() - since, 60)
-        print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
-        #self.progress_signal.emit(100)
+        if self.run_flag == False:
+            self.status_signal.emit('Cancelled training')
+        else:
+            m, s = divmod(time.time() - since, 60)
+            print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
 
     def save_model(self):
         save(self.model.state_dict(), 'trained_models/trained.pth')

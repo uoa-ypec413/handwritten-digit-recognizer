@@ -11,7 +11,7 @@ class TrainingWindowControl():
         self.on_train_button_click()
 
     def on_cancel_button_click(self):
-        self.training_window.cancelButton.clicked.connect(self.training_window.close)
+        self.training_window.cancelButton.clicked.connect(self.digit_recogniser_controller.cancel_training)
 
     def on_download_button_click(self):    
         self.training_window.downloadButton.clicked.connect(self.digit_recogniser_controller.download_data)

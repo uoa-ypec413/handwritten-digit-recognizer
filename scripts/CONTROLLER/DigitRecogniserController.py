@@ -89,6 +89,9 @@ class DigitRecogniserController():
 
         self.train_thread.start()
 
+    def cancel_training(self):
+        if self.train_thread.isRunning:
+            self.digit_recogniser.cancel_train_model()
 
 
 
