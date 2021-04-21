@@ -15,11 +15,11 @@ class Canvas(QLabel):
 
         self.controller = controller
     
-    def mouseMoveEvent(self, event):
+    """ def mouseMoveEvent(self, event):
         self.controller.onMouseMove(event.pos())
     
     def mouseReleaseEvent(self, event):
-        self.controller.onMouseRelease()
+        self.controller.onMouseRelease() """
 
     def drawLine(self, lastPos, currentPos):
         self.painter = QPainter(self.pixmap())
