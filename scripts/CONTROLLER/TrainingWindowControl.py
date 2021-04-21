@@ -24,3 +24,6 @@ class TrainingWindowControl():
 
     def update_console(self, message):
         self.training_window.appendConsole(message)
+
+    def reset_progress(self):
+        self.training_window.progressBar.setValue(0)

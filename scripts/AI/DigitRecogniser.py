@@ -9,9 +9,14 @@ from torch import nn, optim, cuda, save, load # Import neural network model and 
 import time # Lets us timestamp things nicely, makes working with time units simpler
 from AI.NN import Net
 from AI.Data import Data
+from PyQt5.QtCore import pyqtSignal, QObject
 
-class DigitRecogniser():
+class DigitRecogniser(QObject):
+    progress_signal = pyqtSignal(int)
+    status_signal = pyqtSignal(str)
+
     def __init__(self):
+        super().__init__()
         self.data = Data()
         # Training settings
         self.batch_size = 32
@@ -39,9 +44,12 @@ class DigitRecogniser():
             loss.backward()
             self.optimizer.step()
             if batch_idx % 10 == 0:
+                portion_completed = 100. * batch_idx / len(self.data.train_loader)
+                self.progress_signal.emit(int(portion_completed))
                 print('Train Epoch: {} | Batch Status: {}/{} ({:.0f}%) | Loss: {:.6f}'.format(
                     epoch, batch_idx * len(data), len(self.data.train_loader.dataset),
                     100. * batch_idx / len(self.data.train_loader), loss.item()))
+        self.progress_signal.emit(100)
 
     def test(self):
         self.model.eval()
@@ -63,6 +71,7 @@ class DigitRecogniser():
     def train_model(self):
         since = time.time()
         for epoch in range(1, 10):
+            self.status_signal.emit(f'Training Epoch: {epoch} of 3\n')
             epoch_start = time.time()
             self.train_network(epoch)
             m, s = divmod(time.time() - epoch_start, 60)
@@ -73,6 +82,7 @@ class DigitRecogniser():
 
         m, s = divmod(time.time() - since, 60)
         print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
+        #self.progress_signal.emit(100)
 
     def save_model(self):
         save(self.model.state_dict(), 'trained_models/trained.pth')
