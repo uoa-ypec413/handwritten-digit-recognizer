@@ -107,10 +107,10 @@ class DigitRecogniser(QObject):
 
     def recognise_user_digit(self):
         image = io.read_image('user_data/digit_drawing.jpg')
-        user_input_process = transforms.Compose([transforms.Grayscale()])
-        image = user_input_process(image)
         image = transforms.functional.invert(image) / 255
-        output = F.softmax(self.model(image))
+        user_input_process = transforms.Compose([transforms.Grayscale(), transforms.Resize((28, 28))])
+        image = user_input_process(image)
+        output = F.softmax(self.model(image), 1)
         print(f'Probability of each possible digit:\n\
         0: {output[0][0]*100:.0f}%,\n\
         1: {output[0][1]*100:.0f}%,\n\

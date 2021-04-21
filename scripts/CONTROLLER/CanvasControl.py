@@ -26,9 +26,4 @@ class canvasController():
     def saveDrawing(self):
 
             drawing = self.canvas.pixmap()
-            drawing = drawing.scaled(28, 28, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             drawing.save('user_data/digit_drawing.jpg', "JPEG" )
-
-            '''drawing = self.canvas.pixmap().toImage()
-            drawing = drawing.bits().asstring(700 * 800 * 4)
-            drawing = numpy.fromstring(drawing, dtype=numpy.uint8).reshape((800, 700, 4))'''

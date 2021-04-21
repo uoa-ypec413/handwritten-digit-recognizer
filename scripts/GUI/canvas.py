@@ -23,7 +23,7 @@ class Canvas(QLabel):
 
     def drawLine(self, lastPos, currentPos):
         self.painter = QPainter(self.pixmap())
-        self.painter.setPen(QPen(QtCore.Qt.black, 80, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
+        self.painter.setPen(QPen(QtCore.Qt.black, 60, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
         self.painter.drawLine(lastPos, currentPos)
         self.painter.end()
         self.update()
