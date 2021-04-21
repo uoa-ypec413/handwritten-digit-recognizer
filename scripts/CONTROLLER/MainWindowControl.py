@@ -1,26 +1,29 @@
 from GUI.mainwindow import *
+from CONTROLLER.TrainingWindowControl import *
 from CONTROLLER.CentralWidgetControl import *
 from CONTROLLER.ViewerWindowController import *
 
 class MainWindowControl():
-    def __init__(self, app):
-        self.mainWindow = MainWindow(app)
-        self.centralWidgetController = CentralWidgetControl(self.mainWindow)
+
+    def __init__(self, app, digit_recogniser_controller):
+        self.main_window = MainWindow(app)
+        self.training_window_control = TrainingWindowControl(self.main_window.trainingWindow, digit_recogniser_controller)
+        self.centralWidgetController = CentralWidgetControl(self.main_window)
         self.viewerWindowController = ViewerWindowController()
+        
         self.onExitActionClick()
         self.onTrainModelActionClick()
         self.onTrainingImagesActionClick()
         self.onTestingImagesActionClick()
-
-    
+        
     def onExitActionClick(self):
-        self.mainWindow.exitAction.triggered.connect(self.mainWindow.quitWindow)
+        self.main_window.exitAction.triggered.connect(self.main_window.quitWindow)
 
     def onTrainModelActionClick(self):
-        self.mainWindow.trainModelAction.triggered.connect(self.mainWindow.showTrainingWindow)
+        self.main_window.trainModelAction.triggered.connect(self.main_window.showTrainingWindow)
     
     def onTrainingImagesActionClick(self):
-        self.mainWindow.viewTrainingImagesAction.triggered.connect(self.viewerWindowController.showTrainingViewerWindow)
-    
+      self.main_window.viewTrainingImagesAction.triggered.connect(self.viewerWindowController.showTrainingViewerWindow)
+     
     def onTestingImagesActionClick(self):
-        self.mainWindow.viewTestingImagesAction.triggered.connect(self.viewerWindowController.showTestingViewerWindow)
+      self.main_window.viewTestingImagesAction.triggered.connect(self.viewerWindowController.showTestingViewerWindow)
