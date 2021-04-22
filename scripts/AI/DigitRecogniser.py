@@ -77,7 +77,7 @@ class DigitRecogniser(QObject):
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
         test_loss /= len(self.data.test_loader.dataset)
-        self.status_signal.emit(f'Accuracy: {(correct/len(self.data.test_loader.dataset)) * 100:.0f}%\n')
+        self.status_signal.emit(f'Accuracy: {(correct/len(self.data.test_loader.dataset)) * 100:.1f}%\n')
         print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.data.test_loader.dataset)} '
             f'({100. * correct / len(self.data.test_loader.dataset):.0f}%)')
 
