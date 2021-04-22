@@ -7,7 +7,7 @@
 from __future__ import print_function # Allows us to do fancier print statements
 from torch import nn, optim, cuda, save, load # Import neural network model and some optimization libraries
 import time # Lets us timestamp things nicely, makes working with time units simpler
-from AI.NN import Net
+from AI.NN import *
 from AI.Data import Data
 from PyQt5.QtCore import pyqtSignal, QObject
 from torchvision import transforms, io
@@ -23,10 +23,10 @@ class DigitRecogniser(QObject):
         # Training settings
         self.batch_size = 32
         self.device = 'cuda' if cuda.is_available() else 'cpu'
-        self.create_model()
+        self.create_model(LeNet5)
 
-    def create_model(self):
-        self.model = Net()
+    def create_model(self, model):
+        self.model = model()
         self.model.to(self.device)
         # Use cross entropy loss function
         self.criterion = nn.CrossEntropyLoss()
@@ -62,6 +62,8 @@ class DigitRecogniser(QObject):
         test_loss = 0
         correct = 0
         for data, target in self.data.test_loader:
+            if self.run_flag == False:
+                return
             data, target = data.to(self.device), target.to(self.device)
             output = self.model(data)
             # sum up batch loss
@@ -95,6 +97,7 @@ class DigitRecogniser(QObject):
             print(f'Testing time: {m:.0f}m {s:.0f}s')
 
         if self.run_flag == False:
+            print('Cancelled training')
             self.status_signal.emit('Cancelled training\n')
             self.progress_signal.emit(0)
         else:
@@ -110,6 +113,7 @@ class DigitRecogniser(QObject):
         image = transforms.functional.invert(image) / 255
         user_input_process = transforms.Compose([transforms.Grayscale(), transforms.Resize((28, 28))])
         image = user_input_process(image)
+        image = image.unsqueeze(0)
         output = F.softmax(self.model(image), 1)
         print(f'Probability of each possible digit:\n\
         0: {output[0][0]*100:.0f}%,\n\
