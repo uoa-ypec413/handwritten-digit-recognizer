@@ -27,14 +27,6 @@ class MainWindow(QMainWindow):
         qRectangle.moveCenter(centerPosition)
         self.move(qRectangle.topLeft()) # move window to monitor centre position
 
-    def addExitAction(self):
-        self.exitAction = QAction('Quit', self)
-        self.exitAction.setShortcut('Ctrl+Q')
-        self.exitAction.setStatusTip('Quit application')
-    
-    def addTrainModelAction(self):
-        self.trainModelAction = QAction('Train Model', self)
-
     def addViewTrainingImagesAction(self):
         self.viewTrainingImagesAction = QAction('View Training Images', self)
 
@@ -45,9 +37,28 @@ class MainWindow(QMainWindow):
         menubar = self.menuBar()
 
         fileMenu = menubar.addMenu('&File')
-        self.addTrainModelAction()
-        self.addExitAction()
+
+        self.newModelMenu = fileMenu.addMenu('New Model')
+        self.basicNNAction = QAction('Basic NN', self)
+        self.newModelMenu.addAction(self.basicNNAction)
+        self.leNet5Action = QAction('LeNet-5', self)
+        self.newModelMenu.addAction(self.leNet5Action)
+        self.adjustedLeNet5Action = QAction('Adjusted LeNet-5', self)
+        self.newModelMenu.addAction(self.adjustedLeNet5Action)
+        
+        self.loadModelAction = QAction('Load Model', self)
+        self.loadModelAction.setToolTip('Loads an existing model')
+        fileMenu.addAction(self.loadModelAction)
+
+        self.saveModelAction = QAction('Save Model', self)
+        fileMenu.addAction(self.saveModelAction)
+
+        self.trainModelAction = QAction('Train Model', self)
         fileMenu.addAction(self.trainModelAction)
+
+        self.exitAction = QAction('Quit', self)
+        self.exitAction.setShortcut('Ctrl+Q')
+        self.exitAction.setToolTip('Quit application')
         fileMenu.addAction(self.exitAction)
 
         viewMenu = menubar.addMenu('&View')
@@ -55,3 +66,9 @@ class MainWindow(QMainWindow):
         self.addViewTestingImagesAction()
         viewMenu.addAction(self.viewTrainingImagesAction)
         viewMenu.addAction(self.viewTestingImagesAction)
+        self.viewTestingImagesAction.setEnabled(False)
+        self.viewTrainingImagesAction.setEnabled(False)
+
+    def enableDataSetViewer(self):
+        self.viewTestingImagesAction.setEnabled(True)
+        self.viewTrainingImagesAction.setEnabled(True)
