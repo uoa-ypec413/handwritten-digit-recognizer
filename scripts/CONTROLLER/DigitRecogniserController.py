@@ -86,6 +86,7 @@ class DigitRecogniserController():
         self.train_worker.finished.connect(self.train_thread.quit)
         self.train_thread.finished.connect(self.train_thread.deleteLater)
         self.train_worker.finished.connect(self.train_worker.deleteLater)
+        self.train_thread.finished.connect(self.training_window_control.on_training_complete)
 
         self.train_thread.start()
 
@@ -93,5 +94,35 @@ class DigitRecogniserController():
         if self.train_thread.isRunning:
             self.digit_recogniser.cancel_train_model()
 
+    def recognise_digit(self):
+        probabilities = self.digit_recogniser.recognise_user_digit()
+        probabilities = probabilities.detach().numpy()
+        max_digit = numpy.where(probabilities == numpy.amax(probabilities))
+        self.main_window_control.centralWidgetController.probabilityController.setProbability(probabilities * 100)
+        self.main_window_control.centralWidgetController.set_predicted_digit(str(max_digit[0][0]))
+    
+    # def set_model(self, model: str):
+    #     if model == 'basic':
+    #         self.digit_recogniser.create_model(BasicNN)
+    #     elif model == 'le-net-5':
+    #         self.digit_recogniser.create_model(LeNet5)
+    #     elif model == 'adjusted-le-net-5':
+    #         self.digit_recogniser.create_model(AdjustedLeNet5)
+    #     else:
+    #         print('Warning: Invalid Model!')
+    
+    def set_basic_model(self):
+        self.digit_recogniser.create_model(BasicNN)
+    
+    def set_LN5_model(self):
+        self.digit_recogniser.create_model(LeNet5)
+    
+    def set_ALN5_model(self):
+        self.digit_recogniser.create_model(AdjustedLeNet5)
+    
+    def load_model(self, file_name):
+        self.digit_recogniser.load_model(file_name)
 
+    def save_model(self, file_name):
+        self.digit_recogniser.save_model(file_name)
 

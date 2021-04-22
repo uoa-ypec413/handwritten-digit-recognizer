@@ -1,5 +1,6 @@
 from GUI.canvas import *
 import numpy
+from PyQt5.QtCore import Qt
 
 class canvasController():
     def __init__(self):
@@ -17,14 +18,12 @@ class canvasController():
     
     def onMouseRelease(self):
         self.lastPos = None
+        self.saveDrawing()
     
     def clear(self):
         self.canvas.clear()
 
-    def getDrawing(self):
-            
-            drawing = self.canvas.pixmap().toImage()
-            drawing = drawing.bits().asstring(700 * 800 * 4)
-            drawing = numpy.fromstring(drawing, dtype=numpy.uint8).reshape((800, 700, 4))
-            
-            return drawing
+    def saveDrawing(self):
+
+            drawing = self.canvas.pixmap()
+            drawing.save('user_data/digit_drawing.jpg', "JPEG" )

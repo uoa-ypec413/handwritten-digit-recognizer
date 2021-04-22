@@ -9,7 +9,6 @@ class ImageFrame(QFrame):
     def __init__(self):
         super().__init__()
         self.page = 0
-        self.imageArray = []
         self.imageGrid = QGridLayout()
         self.setLayout(self.imageGrid)
         self.image = QPixmap(28, 28)
@@ -40,15 +39,6 @@ class ImageFrame(QFrame):
             label.setPixmap(QPixmap.fromImage(image))
             self.imageArray.append(label)
 
-        # in_image = dataset.data[0]
-        # in_image = np.array(in_image, dtype='uint8').reshape((28, 28))
-
-        # image = QImage(in_image, 28, 28, 28, QImage.Format_Indexed8)
-        # image.setColorTable([qRgb(255-i, 255-i, 255-i) for i in range(256)])
-        # image = image.scaled(100, 100)
-        # label = QLabel()
-        # label.setPixmap(QPixmap.fromImage(image))
-        # self.imageArray.append(label)
         self.addImages()
     
     def addImages(self):
