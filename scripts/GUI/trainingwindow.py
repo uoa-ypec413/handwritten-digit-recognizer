@@ -1,18 +1,20 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
+from PyQt5.QtGui import QIcon
 
 class TrainingWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Dialog")
+        self.setWindowTitle("Training Window")
         self.resize(400, 400)
         self.center()
         self.addConsole()
         self.addProgressBar()
         self.addButtons()
         self.setBoxLayout()
+        self.setWindowIcon(QIcon('media\logo.png'))
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry

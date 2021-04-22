@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from GUI.imageframe import *
 import numpy
+from PyQt5.QtGui import QIcon
 
 class ViewerWindow(QWidget):
 
@@ -12,6 +13,8 @@ class ViewerWindow(QWidget):
             self.setWindowTitle('Training Dataset Viewer')
         elif self.name == 'test':
             self.setWindowTitle('Testing Dataset Viewer')
+
+        self.setWindowIcon(QIcon('media\logo.png'))
         
         self.display(pages)
         
