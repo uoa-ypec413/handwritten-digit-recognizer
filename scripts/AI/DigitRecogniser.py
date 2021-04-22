@@ -23,7 +23,7 @@ class DigitRecogniser(QObject):
         # Training settings
         self.batch_size = 32
         self.device = 'cuda' if cuda.is_available() else 'cpu'
-        self.create_model(LeNet5)
+        self.create_model(AdjustedLeNet5)
 
     def create_model(self, model):
         self.model = model()
@@ -33,8 +33,12 @@ class DigitRecogniser(QObject):
         # Try optimising with basic stochastic gradient descent setup first
         self.optimizer = optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
 
-    def load_model(self):
-        self.model.load_state_dict(load('trained_models/trained.pth'))
+    def load_model(self, file):
+        self.model = load(file[0])
+        self.model.eval()
+    
+    def save_model(self, file):
+        save(self.model, file[0])
 
     def train_network(self, epoch):
         self.model.train() # Puts the model into training mode
@@ -103,10 +107,6 @@ class DigitRecogniser(QObject):
         else:
             m, s = divmod(time.time() - since, 60)
             print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
-
-    def save_model(self):
-        save(self.model.state_dict(), 'trained_models/trained.pth')
-        print('Model saved')
 
     def recognise_user_digit(self):
         image = io.read_image('user_data/digit_drawing.jpg')

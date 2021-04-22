@@ -1,10 +1,10 @@
 from torch import nn # Import neural network model
 import torch.nn.functional as F
 
-class StandardNN(nn.Module):
+class BasicNN(nn.Module):
 
     def __init__(self):
-        super(StandardNN, self).__init__()
+        super(BasicNN, self).__init__()
         # Start with a basic 2-layer neural network
         self.l1 = nn.Linear(784, 392)
         self.l2 = nn.Linear(392, 10)

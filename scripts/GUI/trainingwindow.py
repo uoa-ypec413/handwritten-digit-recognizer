@@ -40,10 +40,27 @@ class TrainingWindow(QWidget):
         hbox.addStretch(1)
         hbox.addWidget(self.downloadButton)
         hbox.addWidget(self.trainButton)
+        self.trainButton.setEnabled(False)
         hbox.addWidget(self.cancelButton)
+        self.cancelButton.setEnabled(False)
         hbox.addStretch(1)
 
         return hbox
+
+    def enableTrainButton(self):
+        self.trainButton.setEnabled(True)
+
+    def enableCancelButton(self):
+        self.cancelButton.setEnabled(True)
+
+    def disableDownloadButton(self):
+        self.downloadButton.setEnabled(False)
+    
+    def disableTrainButton(self):
+        self.trainButton.setEnabled(False)
+    
+    def disableCancelButton(self):
+        self.cancelButton.setEnabled(False)
 
     def setProgressBarLayout(self):
         self.progressBar.setAlignment(QtCore.Qt.AlignCenter)

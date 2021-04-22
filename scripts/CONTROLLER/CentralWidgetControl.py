@@ -18,9 +18,11 @@ class CentralWidgetControl():
         self.centralWidget = centralWidget
     
     def openModel(self):
-        fname = QFileDialog.getOpenFileName(self.centralWidget, 'Open file', './trained_models') # create file dialog
-        if fname[0]:
-            f = open(fname[0], 'r')
+        file_name = QFileDialog.getOpenFileName(self.mainWindow, "Load Model",
+                                       "models/",
+                                       "Digit Recognizer Models (*.pt)")
+        if file_name[0]:
+            self.digit_recogniser_controller.load_model(file_name)
 
     def on_recognise_button_click(self):
         self.centralWidget.recogniseButton.clicked.connect(self.digit_recogniser_controller.recognise_digit)
