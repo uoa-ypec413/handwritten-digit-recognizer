@@ -9,10 +9,8 @@ class MainWindowControl():
         self.main_window = MainWindow(app)
         self.digit_recogniser_controller = digit_recogniser_controller
         self.training_window_control = TrainingWindowControl(self.main_window.trainingWindow, digit_recogniser_controller)
-
         self.centralWidgetController = CentralWidgetControl(self.main_window, digit_recogniser_controller)
-        self.viewerWindowController = ViewerWindowController()
-        
+        self.viewerWindowController = ViewerWindowController(digit_recogniser_controller)        
         self.onExitActionClick()
         self.onTrainModelActionClick()
         self.onTrainingImagesActionClick()
