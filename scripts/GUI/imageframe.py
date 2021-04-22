@@ -1,55 +1,73 @@
 from PyQt5.QtWidgets import QGridLayout, QFrame, QLabel
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
-import random
+from PyQt5.QtGui import QPixmap, QImage, QColor, qRgb
+from matplotlib import pyplot as plt
+import numpy as np
 
 class ImageFrame(QFrame):
 
     def __init__(self):
         super().__init__()
-        self.imageGrid = QGridLayout()
-
-        self.colour_array = [Qt.white, Qt.red, Qt.green, Qt.blue, Qt.black, Qt.cyan, Qt.magenta, Qt.yellow]
-
         self.page = 0
-
         self.imageArray = []
+        self.imageGrid = QGridLayout()
+        self.setLayout(self.imageGrid)
         self.image = QPixmap(28, 28)
         self.image = self.image.scaled(100, 100)
-
-        for i in range(0,60000):
-            self.image.fill(self.colour_array[random.randrange(0, 7)])
+        self.imageArray = []
+        for i in range(100):
+            self.image.fill(Qt.black)
             label = QLabel()
             label.setPixmap(self.image)
             self.imageArray.append(label)
         
         self.addImages()
-        self.setLayout(self.imageGrid)
+        
 
-    def addImages(self):
+    def render_dataset(self, dataset):
+        self.imageArray = []
+        
+        page_range = (self.page * 100, (self.page + 1) * 100)
+        dataArray = dataset.data[page_range[0]:page_range[1]]
 
-        range = (self.page * 1000, (self.page + 1) * 1000)
-        self.image_range = self.imageArray[range[0]:range[1]]
+        for data in dataArray:
+            in_image = data
+            in_image = np.array(in_image, dtype='uint8').reshape((28, 28))
+            image = QImage(in_image, 28, 28, 28, QImage.Format_Indexed8)
+            image.setColorTable([qRgb(255-i, 255-i, 255-i) for i in range(256)])
+            image = image.scaled(100, 100)
+            label = QLabel()
+            label.setPixmap(QPixmap.fromImage(image))
+            self.imageArray.append(label)
 
-        row = 0
-        column = 0
-        for images in self.image_range:
-            
-            self.imageGrid.addWidget(images, row, column)
+        # in_image = dataset.data[0]
+        # in_image = np.array(in_image, dtype='uint8').reshape((28, 28))
 
-            if column == 7:
-                row += 1
-                column = 0
-            else:
-                column += 1
+        # image = QImage(in_image, 28, 28, 28, QImage.Format_Indexed8)
+        # image.setColorTable([qRgb(255-i, 255-i, 255-i) for i in range(256)])
+        # image = image.scaled(100, 100)
+        # label = QLabel()
+        # label.setPixmap(QPixmap.fromImage(image))
+        # self.imageArray.append(label)
+        self.addImages()
     
-    def clearGrid(self):
-        for images in self.image_range:
-            images.setParent(None)
+    def addImages(self):
+        
+        #page_range = (self.page * 50, (self.page + 1) * 50)
+        #self.image_range = self.imageArray[page_range[0]:page_range[1]]
+        self.row = 0
+        self.column = 0
+
+        for images in self.imageArray:
+            
+            self.imageGrid.addWidget(images, self.row, self.column)
+
+            if self.column == 7:
+                self.row += 1
+                self.column = 0
+            else:
+                self.column += 1
 
 
     def setPage(self, page):
         self.page = page
-        print(self.page)
-        self.clearGrid()
-        self.addImages()

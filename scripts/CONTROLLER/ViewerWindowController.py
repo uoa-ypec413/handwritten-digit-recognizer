@@ -2,12 +2,14 @@ from GUI.viewerwindow import *
 from CONTROLLER.ImageFrameController import *
 
 class ViewerWindowController():
-    def __init__(self):
+    def __init__(self, digit_recogniser_controller):
         self.testImageFrameController = ImageFrameController()
         self.trainImageFrameController = ImageFrameController()
+        
+        self.digit_recogniser_controller = digit_recogniser_controller
 
-        self.testViewerWindow = ViewerWindow(name = 'test')
-        self.trainViewerWindow = ViewerWindow(name = 'train')
+        self.testViewerWindow = ViewerWindow(100, name = 'test')
+        self.trainViewerWindow = ViewerWindow(600, name = 'train')
 
         self.testViewerWindow.scrollArea.setWidget(self.testImageFrameController.imageFrame)
         self.trainViewerWindow.scrollArea.setWidget(self.trainImageFrameController.imageFrame)
@@ -19,9 +21,11 @@ class ViewerWindowController():
         self.trainViewerWindow.okButton.clicked.connect(self.closeTrainViewer)
     
     def showTrainingViewerWindow(self):
+        self.trainImageFrameController.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.train_dataset)
         self.trainViewerWindow.show()
     
     def showTestingViewerWindow(self):
+        self.testImageFrameController.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.test_dataset)
         self.testViewerWindow.show()
     
     def setTestPage(self):

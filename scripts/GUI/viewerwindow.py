@@ -4,7 +4,7 @@ import numpy
 
 class ViewerWindow(QWidget):
 
-    def __init__(self, name: str):
+    def __init__(self, pages, name: str):
         super().__init__()
         self.name = name
 
@@ -13,7 +13,7 @@ class ViewerWindow(QWidget):
         elif self.name == 'test':
             self.setWindowTitle('Testing Dataset Viewer')
         
-        self.display()
+        self.display(pages)
         
 
     def center(self):
@@ -31,10 +31,10 @@ class ViewerWindow(QWidget):
         
         return hbox
 
-    def addPageSelect(self):
+    def addPageSelect(self, pages):
         self.pageSelectLabel = QLabel('Page:')
         self.pageComboBox = QComboBox(self)
-        pages = numpy.arange(60)
+        pages = numpy.arange(1, pages + 1)
         for page in pages:
             self.pageComboBox.addItem(str(page))
 
@@ -73,8 +73,8 @@ class ViewerWindow(QWidget):
     def setButtonLayout(self):
         vbox = QVBoxLayout()
         vbox.addLayout(self.setPageSelectLayout())
-        vbox.addLayout(self.setDigitSelectLayout())
-        vbox.addLayout(self.setAllSelectLayout())
+        #vbox.addLayout(self.setDigitSelectLayout())
+        #vbox.addLayout(self.setAllSelectLayout())
         vbox.addStretch(1)
         vbox.addLayout(self.setOkButtonLayout())
 
@@ -87,12 +87,12 @@ class ViewerWindow(QWidget):
 
         self.setLayout(hbox)
 
-    def display(self):
+    def display(self, pages):
         self.resize(1100, 800)
         self.center()
         self.addOkButton()
-        self.addAllSelect()
-        self.addPageSelect()
-        self.addDigitSelect()
+        #self.addAllSelect()
+        self.addPageSelect(pages)
+        #self.addDigitSelect()
         self.scrollArea = QScrollArea()
         self.setBoxLayout()
