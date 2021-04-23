@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
         menubar = self.menuBar()
 
         fileMenu = menubar.addMenu('&File')
+        fileMenu.setToolTipsVisible(True)
 
         self.newModelMenu = fileMenu.addMenu('New Model')
         self.basicNNAction = QAction('Basic NN', self)
