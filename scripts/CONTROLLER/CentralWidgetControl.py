@@ -42,12 +42,10 @@ class CentralWidgetControl():
         self.digit_recogniser_controller = digit_recogniser_controller
 
         self.mainWindow = mainWindow
-        self.mainWindow.setCentralWidget(CentralWidget(self))
+        self.centralWidget = CentralWidget(self)
+        self.mainWindow.setCentralWidget(self.centralWidget)
 
         self.on_recognise_button_click()
-        
-    def setCentralWidget(self, centralWidget):
-        self.centralWidget = centralWidget
     
     def openModel(self):
         file_name = QFileDialog.getOpenFileName(self.mainWindow, "Load Model",

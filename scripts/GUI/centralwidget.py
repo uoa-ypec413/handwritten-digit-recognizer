@@ -8,7 +8,6 @@ class CentralWidget(QWidget):
         super().__init__()
 
         self.controller = controller
-        self.controller.setCentralWidget(self)
 
         self.clearButton = QPushButton('Clear')
         self.modelButton = QPushButton('Model')
