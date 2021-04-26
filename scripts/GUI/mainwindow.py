@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QAction, QApplication
+from CONTROLLER.ViewerWindowController import *
 from GUI.trainingwindow import *
-from GUI.viewerwindow import *
 from PyQt5.QtGui import QIcon
 
 class MainWindow(QMainWindow):
@@ -15,8 +15,6 @@ class MainWindow(QMainWindow):
         self.trainingWindow = TrainingWindow() # Should be moved to control
         self.addMenuBar()
         self.setWindowIcon(QIcon('media\logo.png'))
-        self.testViewerWindow = ViewerWindow(100, name = 'test')
-        self.trainViewerWindow = ViewerWindow(600, name = 'train')
         self.show()
 
     def quitWindow(self): # Should be moved to control
