@@ -138,5 +138,7 @@ dmypy.json
 cython_debug/
 
 # Downloaded MNIST Datasets
-MNIST/
+mnist_data/
+
+# User drawings
 user_data/digit_drawing.jpg
