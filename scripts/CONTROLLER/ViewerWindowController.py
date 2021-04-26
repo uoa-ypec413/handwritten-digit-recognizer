@@ -11,9 +11,7 @@ class ImageFrameController():
     
     def load_dataset(self, dataset):
         self.dataset = dataset
-        #self.imageFrame.clearGrid()
         self.imageFrame.render_dataset(dataset)
-        #self.imageFrame.addImages()
 
 class ViewerWindowController():
     def __init__(self, digit_recogniser_controller):

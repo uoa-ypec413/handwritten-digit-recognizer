@@ -101,16 +101,6 @@ class DigitRecogniserController():
         self.main_window_control.centralWidgetController.probabilityController.setProbability(probabilities * 100)
         self.main_window_control.centralWidgetController.set_predicted_digit(str(max_digit[0][0]))
     
-    # def set_model(self, model: str):
-    #     if model == 'basic':
-    #         self.digit_recogniser.create_model(BasicNN)
-    #     elif model == 'le-net-5':
-    #         self.digit_recogniser.create_model(LeNet5)
-    #     elif model == 'adjusted-le-net-5':
-    #         self.digit_recogniser.create_model(AdjustedLeNet5)
-    #     else:
-    #         print('Warning: Invalid Model!')
-    
     def set_basic_model(self):
         self.digit_recogniser.create_model(BasicNN)
     

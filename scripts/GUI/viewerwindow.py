@@ -76,8 +76,6 @@ class ViewerWindow(QWidget):
     def setButtonLayout(self):
         vbox = QVBoxLayout()
         vbox.addLayout(self.setPageSelectLayout())
-        #vbox.addLayout(self.setDigitSelectLayout())
-        #vbox.addLayout(self.setAllSelectLayout())
         vbox.addStretch(1)
         vbox.addLayout(self.setOkButtonLayout())
 
@@ -94,8 +92,6 @@ class ViewerWindow(QWidget):
         self.resize(1100, 800)
         self.center()
         self.addOkButton()
-        #self.addAllSelect()
         self.addPageSelect(pages)
-        #self.addDigitSelect()
         self.scrollArea = QScrollArea()
         self.setBoxLayout()

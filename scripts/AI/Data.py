@@ -2,10 +2,6 @@ from torchvision import datasets, transforms
 from torch.utils import data
 
 class Data():
-    #def __init__(self):
-        #self.train_dataset = []
-        #self.test_dataset = []
-
     def import_train_dataset(self):
         # Import the MNIST Train Dataset from Torchvision.
         self.train_dataset = datasets.MNIST(root='mnist_data/',

@@ -46,7 +46,6 @@ class CentralWidgetControl():
 
         self.on_recognise_button_click()
         
-        #self.probabilityPlotControl = ProbabilityPlotControl()
     def setCentralWidget(self, centralWidget):
         self.centralWidget = centralWidget
     

@@ -42,9 +42,6 @@ class ImageFrame(QFrame):
         self.addImages()
     
     def addImages(self):
-        
-        #page_range = (self.page * 50, (self.page + 1) * 50)
-        #self.image_range = self.imageArray[page_range[0]:page_range[1]]
         self.row = 0
         self.column = 0
 
