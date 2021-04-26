@@ -12,16 +12,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Handwritten Digit Recognizer")
         self.resize(1000, 800)
         self.center()
-        self.trainingWindow = TrainingWindow() # Should be moved to control
         self.addMenuBar()
         self.setWindowIcon(QIcon('media\logo.png'))
         self.show()
 
-    def quitWindow(self): # Should be moved to control
+    def quitWindow(self):
         self.app.quit()
-
-    def showTrainingWindow(self):
-        self.trainingWindow.show()
 
     def center(self):
         qRectangle = self.frameGeometry() # get window geometry

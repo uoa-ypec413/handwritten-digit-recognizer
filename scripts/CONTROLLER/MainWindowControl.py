@@ -8,7 +8,7 @@ class MainWindowControl():
     def __init__(self, app, digit_recogniser_controller):
         self.main_window = MainWindow(app)
         self.digit_recogniser_controller = digit_recogniser_controller
-        self.training_window_control = TrainingWindowControl(self.main_window.trainingWindow, digit_recogniser_controller)
+        self.training_window_control = TrainingWindowControl(digit_recogniser_controller)
         self.centralWidgetController = CentralWidgetControl(self.main_window, digit_recogniser_controller)
         self.viewerWindowController = ViewerWindowController(digit_recogniser_controller)        
         self.onExitActionClick()
@@ -25,7 +25,7 @@ class MainWindowControl():
         self.main_window.exitAction.triggered.connect(self.main_window.quitWindow)
 
     def onTrainModelActionClick(self):
-        self.main_window.trainModelAction.triggered.connect(self.main_window.showTrainingWindow)
+        self.main_window.trainModelAction.triggered.connect(self.training_window_control.showTrainingWindow)
     
     def onTrainingImagesActionClick(self):
       self.main_window.viewTrainingImagesAction.triggered.connect(self.viewerWindowController.showTrainingViewerWindow)

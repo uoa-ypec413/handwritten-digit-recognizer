@@ -3,12 +3,15 @@ from GUI.trainingwindow import *
 from CONTROLLER.DigitRecogniserController import *
 
 class TrainingWindowControl():
-    def __init__(self, training_window, digit_recogniser_controller):
+    def __init__(self, digit_recogniser_controller):
         self.digit_recogniser_controller = digit_recogniser_controller
-        self.training_window = training_window
+        self.training_window = TrainingWindow()
         self.on_cancel_button_click()
         self.on_download_button_click()
         self.on_train_button_click()
+
+    def showTrainingWindow(self):
+        self.training_window.show()
 
     def on_cancel_button_click(self):
         self.training_window.cancelButton.clicked.connect(self.digit_recogniser_controller.cancel_training)
