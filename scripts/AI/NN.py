@@ -12,7 +12,7 @@ class BasicNN(nn.Module):
     def forward(self, x):
         x = x.view(-1, 784)  # Flatten the data (n, 1, 28, 28)-> (n, 784)
         x = F.relu(self.l1(x))
-        return self.l2(x)
+        return F.softmax(self.l2(x), 1)
 
 class LeNet5(nn.Module):
     
@@ -33,7 +33,7 @@ class LeNet5(nn.Module):
         x = x.view(-1, 16*5*5)
         x = F.tanh(self.fc1(x))
         x = F.tanh(self.fc2(x))
-        x = F.log_softmax(self.fc3(x))
+        x = F.softmax(self.fc3(x))
         return x
 
 class AdjustedLeNet5(nn.Module):
@@ -55,5 +55,5 @@ class AdjustedLeNet5(nn.Module):
         x = x.view(-1, 16*5*5)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
-        x = F.log_softmax(self.fc3(x))
+        x = F.softmax(self.fc3(x))
         return x

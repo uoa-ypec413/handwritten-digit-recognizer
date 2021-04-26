@@ -87,11 +87,11 @@ class DigitRecogniser(QObject):
     def train_model(self):
         since = time.time()
         self.run_flag = True
-        for epoch in range(1, 11):
+        for epoch in range(1, 26):
             if self.run_flag == False:
                 break
 
-            self.status_signal.emit(f'Training Epoch: {epoch} of 10\n')
+            self.status_signal.emit(f'Training Epoch: {epoch} of 25\n')
             epoch_start = time.time()
             self.train_network(epoch)
             m, s = divmod(time.time() - epoch_start, 60)
@@ -114,7 +114,7 @@ class DigitRecogniser(QObject):
         user_input_process = transforms.Compose([transforms.Grayscale(), transforms.Resize((28, 28))])
         image = user_input_process(image)
         image = image.unsqueeze(0)
-        output = F.softmax(self.model(image), 1)
+        output = self.model(image)
         print(f'Probability of each possible digit:\n\
         0: {output[0][0]*100:.0f}%,\n\
         1: {output[0][1]*100:.0f}%,\n\
