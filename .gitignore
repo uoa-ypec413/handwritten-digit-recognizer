@@ -141,4 +141,4 @@ cython_debug/
 mnist_data/
 
 # User drawings
-user_data/digit_drawing.jpg
+user_data/

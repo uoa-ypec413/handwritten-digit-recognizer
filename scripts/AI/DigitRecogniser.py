@@ -62,6 +62,12 @@ class DigitRecogniser(QObject):
         self.progress_signal.emit(100)
 
     def test(self):
+        self.tp = [0,0,0,0,0,0,0,0,0,0]
+        self.fp = [0,0,0,0,0,0,0,0,0,0]
+        self.fn = [0,0,0,0,0,0,0,0,0,0]
+        self.total = [0,0,0,0,0,0,0,0,0,0]
+        self.precision = [0,0,0,0,0,0,0,0,0,0]
+        self.recall = [0,0,0,0,0,0,0,0,0,0]
         self.model.eval()
         test_loss = 0
         correct = 0
@@ -76,10 +82,29 @@ class DigitRecogniser(QObject):
             pred = output.data.max(1, keepdim=True)[1]
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
+            # get the precision and recall rate
+            print(range(len(pred)))
+            for i in range(len(pred)):
+                self.total[pred[i]] += 1
+                if pred[i] == target[i]:
+                    self.tp[pred[i]] += 1                    
+                else:
+                    self.fp[pred[i]] += 1
+                    self.fn[target[i]] += 1
+
+        for i in range(10):
+            self.precision[i] = self.tp[i]/(self.tp[i] + self.fp[i])
+            self.recall[i] = self.tp[i]/(self.tp[i] + self.fn[i])
+        
+        precision_rate = sum(self.precision)/len(self.precision)
+        recall_rate = sum(self.recall)/len(self.recall)
+        f1_score = 2 * (precision_rate * recall_rate)/(precision_rate + recall_rate)
+
         test_loss /= len(self.data.test_loader.dataset)
         self.status_signal.emit(f'Accuracy: {(correct/len(self.data.test_loader.dataset)) * 100:.1f}%\n')
         print(f'===========================\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.data.test_loader.dataset)} '
             f'({100. * correct / len(self.data.test_loader.dataset):.0f}%)')
+        print(f'Precision Rate: {precision_rate}\nRecall Rate: {recall_rate}\n F1 Score: {f1_score}')
 
     def cancel_train_model(self):
         self.run_flag = False
