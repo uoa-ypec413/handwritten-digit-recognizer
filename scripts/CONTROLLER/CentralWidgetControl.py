@@ -45,6 +45,8 @@ class CentralWidgetControl():
         self.centralWidget = CentralWidget(self)
         self.mainWindow.setCentralWidget(self.centralWidget)
 
+        self.on_clear_button_click()
+        self.on_model_button_click()
         self.on_recognise_button_click()
     
     def openModel(self):
@@ -53,6 +55,12 @@ class CentralWidgetControl():
                                        "Digit Recognizer Models (*.pt)")
         if file_name[0]:
             self.digit_recogniser_controller.load_model(file_name)
+
+    def on_clear_button_click(self):
+        self.centralWidget.clearButton.clicked.connect(self.canvasController.clear)
+
+    def on_model_button_click(self):
+        self.centralWidget.modelButton.clicked.connect(self.openModel)
 
     def on_recognise_button_click(self):
         self.centralWidget.recogniseButton.clicked.connect(self.digit_recogniser_controller.recognise_digit)
