@@ -31,7 +31,7 @@ class DigitRecogniser(QObject):
         # Use cross entropy loss function
         self.criterion = nn.CrossEntropyLoss()
         # Try optimising with basic stochastic gradient descent setup first
-        self.optimizer = optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
+        self.optimizer = optim.SGD(self.model.parameters(), lr=0.005, momentum=0.9)
 
     def load_model(self, file):
         self.model = load(file[0])

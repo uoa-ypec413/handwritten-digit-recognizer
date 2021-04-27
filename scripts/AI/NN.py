@@ -23,6 +23,7 @@ class LeNet5(nn.Module):
         self.conv2 = nn.Conv2d(in_channels= 6, out_channels= 16, kernel_size= 5, stride= 1)
         self.fc1 = nn.Linear(16*5*5, 120)
         self.fc2 = nn.Linear(120, 84)
+        self.dropout = nn.Dropout(p=0.2)
         self.fc3 = nn.Linear(84, 10)
 
     def forward(self, x):
@@ -33,6 +34,7 @@ class LeNet5(nn.Module):
         x = x.view(-1, 16*5*5)
         x = F.tanh(self.fc1(x))
         x = F.tanh(self.fc2(x))
+        x = self.dropout(x)
         x = F.softmax(self.fc3(x))
         return x
 
