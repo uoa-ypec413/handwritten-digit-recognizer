@@ -13,9 +13,6 @@ class CentralWidget(QWidget):
         self.modelButton = QPushButton('Model')
         self.recogniseButton = QPushButton('Recognise')
 
-        self.modelButton.clicked.connect(self.controller.openModel)
-        self.clearButton.clicked.connect(self.controller.canvasController.clear)
-
         self.addPredictedDigit()
         self.setPredictedDigit(' ')
 

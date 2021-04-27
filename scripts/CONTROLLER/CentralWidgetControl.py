@@ -45,7 +45,16 @@ class CentralWidgetControl():
         self.centralWidget = CentralWidget(self)
         self.mainWindow.setCentralWidget(self.centralWidget)
 
+        self.on_clear_button_click()
+        self.on_model_button_click()
         self.on_recognise_button_click()
+
+    def on_clear_button_click(self):
+        self.centralWidget.clearButton.clicked.connect(self.canvasController.clear)
+
+    def on_model_button_click(self):
+        self.centralWidget.modelButton.clicked.connect(self.openModel)
+
     
     def openModel(self):
         file_name = QFileDialog.getOpenFileName(self.mainWindow, "Load Model",
