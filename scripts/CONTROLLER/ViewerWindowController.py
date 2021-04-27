@@ -7,7 +7,7 @@ class ImageFrameController():
     
     def updatePage(self, page):
         self.imageFrame.setPage(page)
-        self.load_dataset(self.dataset)
+        self.imageFrame.render_dataset(self.dataset)
     
     def load_dataset(self, dataset):
         self.dataset = dataset
