@@ -31,7 +31,7 @@ class DigitRecogniser(QObject):
         # Use cross entropy loss function
         self.criterion = nn.CrossEntropyLoss()
         # Try optimising with basic stochastic gradient descent setup first
-        self.optimizer = optim.SGD(self.model.parameters(), lr=0.005, momentum=0.9)
+        self.optimizer = optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
 
     def load_model(self, file):
         self.model = load(file[0])
@@ -83,7 +83,6 @@ class DigitRecogniser(QObject):
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
             # get the precision and recall rate
-            print(range(len(pred)))
             for i in range(len(pred)):
                 self.total[pred[i]] += 1
                 if pred[i] == target[i]:
@@ -93,7 +92,10 @@ class DigitRecogniser(QObject):
                     self.fn[target[i]] += 1
 
         for i in range(10):
-            self.precision[i] = self.tp[i]/(self.tp[i] + self.fp[i])
+            if self.tp[i] == (self.tp[i] + self.fp[i]):
+                self.precision[i] = 1
+            else:
+                self.precision[i] = self.tp[i]/(self.tp[i] + self.fp[i])
             self.recall[i] = self.tp[i]/(self.tp[i] + self.fn[i])
         
         precision_rate = sum(self.precision)/len(self.precision)
