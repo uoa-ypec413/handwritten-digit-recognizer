@@ -1,16 +1,17 @@
 from GUI.MainWindow import *
-from CONTROLLER.TrainingWindowControl import *
-from CONTROLLER.CentralWidgetControl import *
+from CONTROLLER.TrainingWindowController import *
+from CONTROLLER.CentralWidgetController import *
 from CONTROLLER.ViewerWindowController import *
 
-class MainWindowControl():
+class MainWindowController():
 
     def __init__(self, app, digit_recogniser_controller):
         self.main_window = MainWindow(app)
         self.digit_recogniser_controller = digit_recogniser_controller
-        self.training_window_control = TrainingWindowControl(digit_recogniser_controller)
-        self.central_widget_controller = CentralWidgetControl(self.main_window, digit_recogniser_controller)
-        self.viewer_window_controller = ViewerWindowController(digit_recogniser_controller)        
+        self.training_window_controller = TrainingWindowController(digit_recogniser_controller)
+        self.central_widget_controller = CentralWidgetController(self.main_window, digit_recogniser_controller)
+        self.viewer_window_controller = ViewerWindowController(digit_recogniser_controller)
+
         self.on_exit_action_click()
         self.on_train_model_action_click()
         self.on_training_images_action_click()
@@ -25,7 +26,7 @@ class MainWindowControl():
         self.main_window.exit_action.triggered.connect(self.main_window.quit_window)
 
     def on_train_model_action_click(self):
-        self.main_window.train_model_action.triggered.connect(self.training_window_control.show_training_window)
+        self.main_window.train_model_action.triggered.connect(self.training_window_controller.show_training_window)
     
     def on_training_images_action_click(self):
       self.main_window.view_training_images_action.triggered.connect(self.viewer_window_controller.show_training_viewer_window)

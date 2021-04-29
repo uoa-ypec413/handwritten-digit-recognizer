@@ -2,7 +2,7 @@ from GUI.MainWindow import *
 from GUI.TrainingWindow import *
 from CONTROLLER.DigitRecogniserController import *
 
-class TrainingWindowControl():
+class TrainingWindowController():
     def __init__(self, digit_recogniser_controller):
         self.digit_recogniser_controller = digit_recogniser_controller
         self.training_window = TrainingWindow()
@@ -23,7 +23,7 @@ class TrainingWindowControl():
         self.training_window.download_button.clicked.connect(self.enable_dataset_viewer)
     
     def enable_dataset_viewer(self):
-        self.digit_recogniser_controller.main_window_control.enable_dataset_viewer()
+        self.digit_recogniser_controller.main_window_controller.enable_dataset_viewer()
 
     def on_progress_update(self, value):
         self.training_window.progress_bar.setValue(value)    

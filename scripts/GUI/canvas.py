@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QCursor
 
-
 class Canvas(QLabel):
 
     def __init__(self, controller):

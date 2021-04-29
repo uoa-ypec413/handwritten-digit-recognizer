@@ -46,7 +46,6 @@ class TrainingWindow(QWidget):
         hbox.addWidget(self.cancel_button)
         self.cancel_button.setEnabled(False)
         hbox.addStretch(1)
-
         return hbox
 
     def enable_train_button(self):

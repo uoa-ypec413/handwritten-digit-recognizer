@@ -1,7 +1,7 @@
 from AI.DigitRecogniser import *
-from CONTROLLER.TrainingWindowControl import *
 from PyQt5.QtCore import QObject, QThread
 from PyQt5.QtCore import pyqtSignal
+import numpy
 
 class DownloadWorker(QObject):
     finished = pyqtSignal()
@@ -54,9 +54,9 @@ class DigitRecogniserController():
     def __init__(self):
         self.digit_recogniser = DigitRecogniser()
 
-    def set_main_window_control(self, main_window_control):
-        self.main_window_control = main_window_control
-        self.training_window_control = self.main_window_control.training_window_control
+    def set_main_window_controller(self, main_window_controller):
+        self.main_window_controller = main_window_controller
+        self.training_window_controller = self.main_window_controller.training_window_controller
 
     def download_data(self, signal):
         self.download_thread = QThread()
@@ -67,8 +67,8 @@ class DigitRecogniserController():
         self.download_worker.finished.connect(self.download_thread.quit)
         self.download_worker.finished.connect(self.download_worker.deleteLater)
         self.download_thread.finished.connect(self.download_thread.deleteLater)
-        self.download_worker.progress.connect(self.training_window_control.on_progress_update)
-        self.download_worker.status.connect(self.training_window_control.update_console)
+        self.download_worker.progress.connect(self.training_window_controller.on_progress_update)
+        self.download_worker.status.connect(self.training_window_controller.update_console)
         
         self.download_thread.start()
 
@@ -77,16 +77,16 @@ class DigitRecogniserController():
         self.train_worker = TrainWorker(self.digit_recogniser)
         self.train_worker.moveToThread(self.train_thread)
 
-        self.train_worker.status.connect(self.training_window_control.update_console)
-        self.train_thread.started.connect(self.training_window_control.reset_progress)
-        self.train_worker.progress.connect(self.training_window_control.on_progress_update)
+        self.train_worker.status.connect(self.training_window_controller.update_console)
+        self.train_thread.started.connect(self.training_window_controller.reset_progress)
+        self.train_worker.progress.connect(self.training_window_controller.on_progress_update)
 
         self.train_thread.started.connect(self.train_worker.run)
 
         self.train_worker.finished.connect(self.train_thread.quit)
         self.train_thread.finished.connect(self.train_thread.deleteLater)
         self.train_worker.finished.connect(self.train_worker.deleteLater)
-        self.train_thread.finished.connect(self.training_window_control.on_training_complete)
+        self.train_thread.finished.connect(self.training_window_controller.on_training_complete)
 
         self.train_thread.start()
 
@@ -98,8 +98,8 @@ class DigitRecogniserController():
         probabilities = self.digit_recogniser.recognise_user_digit()
         probabilities = probabilities.detach().numpy()
         max_digit = numpy.where(probabilities == numpy.amax(probabilities))
-        self.main_window_control.central_widget_controller.probability_controller.set_probability(probabilities * 100)
-        self.main_window_control.central_widget_controller.set_predicted_digit(str(max_digit[0][0]))
+        self.main_window_controller.central_widget_controller.probability_controller.set_probability(probabilities * 100)
+        self.main_window_controller.central_widget_controller.set_predicted_digit(str(max_digit[0][0]))
     
     def set_basic_model(self):
         self.digit_recogniser.create_model(BasicNN)

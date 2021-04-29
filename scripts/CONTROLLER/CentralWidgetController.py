@@ -34,7 +34,7 @@ class CanvasController():
         drawing = self.canvas.pixmap()
         drawing.save('user_data/digit_drawing.jpg', "JPEG" )
 
-class CentralWidgetControl():
+class CentralWidgetController():
     def __init__(self, main_window, digit_recogniser_controller):
         self.canvas_controller = CanvasController()
         self.probability_controller = ProbabilityPlotControl()

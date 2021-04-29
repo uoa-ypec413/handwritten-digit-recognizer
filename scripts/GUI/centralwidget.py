@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QLabel
 from PyQt5 import QtCore
-from GUI.ProbabilityPlot import *
 
 class CentralWidget(QWidget):
 
