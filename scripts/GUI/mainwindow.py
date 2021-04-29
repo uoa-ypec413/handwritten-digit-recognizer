@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QAction, QApplication
 from CONTROLLER.ViewerWindowController import *
-from GUI.trainingwindow import *
+from GUI.TrainingWindow import *
 from PyQt5.QtGui import QIcon
 
 class MainWindow(QMainWindow):

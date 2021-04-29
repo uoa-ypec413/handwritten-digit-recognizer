@@ -1,10 +1,10 @@
-from GUI.centralwidget import *
-from GUI.canvas import *
-from GUI.probabilityplot import *
+from GUI.CentralWidget import *
+from GUI.Canvas import *
+from GUI.ProbabilityPlot import *
 
 class ProbabilityPlotControl():
     def __init__(self):
-        self.plot = probabilityPlot()
+        self.plot = ProbabilityPlot()
     
     def setProbability(self, probabilities):
         self.plot.setProbability(probabilities)

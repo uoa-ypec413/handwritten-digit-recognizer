@@ -1,5 +1,5 @@
-from GUI.viewerwindow import *
-from GUI.imageframe import *
+from GUI.ViewerWindow import *
+from GUI.ImageFrame import *
 
 class ImageFrameController():
     def __init__(self):

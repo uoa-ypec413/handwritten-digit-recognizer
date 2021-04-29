@@ -1,4 +1,4 @@
-from GUI.mainwindow import *
+from GUI.MainWindow import *
 from CONTROLLER.TrainingWindowControl import *
 from CONTROLLER.CentralWidgetControl import *
 from CONTROLLER.ViewerWindowController import *

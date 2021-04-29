@@ -1,5 +1,5 @@
-from GUI.mainwindow import *
-from GUI.trainingwindow import *
+from GUI.MainWindow import *
+from GUI.TrainingWindow import *
 from CONTROLLER.DigitRecogniserController import *
 
 class TrainingWindowControl():

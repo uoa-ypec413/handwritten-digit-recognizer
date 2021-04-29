@@ -4,7 +4,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
-class probabilityPlot(FigureCanvasQTAgg):
+class ProbabilityPlot(FigureCanvasQTAgg):
 
     def __init__(self):
         self.fig = Figure()

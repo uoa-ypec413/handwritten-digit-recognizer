@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from GUI.imageframe import *
+from GUI.ImageFrame import *
 import numpy
 from PyQt5.QtGui import QIcon
 
