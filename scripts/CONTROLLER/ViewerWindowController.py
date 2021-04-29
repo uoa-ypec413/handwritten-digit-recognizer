@@ -3,51 +3,51 @@ from GUI.ImageFrame import *
 
 class ImageFrameController():
     def __init__(self):
-        self.imageFrame = ImageFrame()
+        self.image_frame = ImageFrame()
     
-    def updatePage(self, page):
-        self.imageFrame.setPage(page)
+    def update_page(self, page):
+        self.image_frame.set_page(page)
         self.load_dataset(self.dataset)
     
     def load_dataset(self, dataset):
         self.dataset = dataset
-        self.imageFrame.render_dataset(dataset)
+        self.image_frame.render_dataset(dataset)
 
 class ViewerWindowController():
     def __init__(self, digit_recogniser_controller):
-        self.testImageFrameController = ImageFrameController()
-        self.trainImageFrameController = ImageFrameController()
+        self.test_image_frame_controller = ImageFrameController()
+        self.train_image_frame_controller = ImageFrameController()
         
         self.digit_recogniser_controller = digit_recogniser_controller
 
-        self.testViewerWindow = ViewerWindow(100, name = 'test')
-        self.trainViewerWindow = ViewerWindow(600, name = 'train')
+        self.test_viewer_window = ViewerWindow(100, name = 'test')
+        self.train_viewer_window = ViewerWindow(600, name = 'train')
 
-        self.testViewerWindow.scrollArea.setWidget(self.testImageFrameController.imageFrame)
-        self.trainViewerWindow.scrollArea.setWidget(self.trainImageFrameController.imageFrame)
+        self.test_viewer_window.scroll_area.setWidget(self.test_image_frame_controller.image_frame)
+        self.train_viewer_window.scroll_area.setWidget(self.train_image_frame_controller.image_frame)
 
-        self.testViewerWindow.pageComboBox.currentIndexChanged.connect(self.setTestPage)
-        self.trainViewerWindow.pageComboBox.currentIndexChanged.connect(self.setTrainPage)
+        self.test_viewer_window.page_combobox.currentIndexChanged.connect(self.set_test_page)
+        self.train_viewer_window.page_combobox.currentIndexChanged.connect(self.set_train_page)
 
-        self.testViewerWindow.okButton.clicked.connect(self.closeTestViewer)
-        self.trainViewerWindow.okButton.clicked.connect(self.closeTrainViewer)
+        self.test_viewer_window.ok_button.clicked.connect(self.close_test_viewer)
+        self.train_viewer_window.ok_button.clicked.connect(self.close_train_viewer)
     
-    def showTrainingViewerWindow(self):
-        self.trainImageFrameController.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.train_dataset)
-        self.trainViewerWindow.show()
+    def show_training_viewer_window(self):
+        self.train_image_frame_controller.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.train_dataset)
+        self.train_viewer_window.show()
     
-    def showTestingViewerWindow(self):
-        self.testImageFrameController.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.test_dataset)
-        self.testViewerWindow.show()
+    def show_testing_viewer_window(self):
+        self.test_image_frame_controller.load_dataset(self.digit_recogniser_controller.digit_recogniser.data.test_dataset)
+        self.test_viewer_window.show()
     
-    def setTestPage(self):
-        self.testImageFrameController.updatePage(self.testViewerWindow.pageComboBox.currentIndex())
+    def set_test_page(self):
+        self.test_image_frame_controller.update_page(self.test_viewer_window.page_combobox.currentIndex())
     
-    def setTrainPage(self):
-        self.trainImageFrameController.updatePage(self.trainViewerWindow.pageComboBox.currentIndex())
+    def set_train_page(self):
+        self.train_image_frame_controller.update_page(self.train_viewer_window.page_combobox.currentIndex())
 
-    def closeTestViewer(self):
-        self.testViewerWindow.close()
+    def close_test_viewer(self):
+        self.test_viewer_window.close()
     
-    def closeTrainViewer(self):
-        self.trainViewerWindow.close()
+    def close_train_viewer(self):
+        self.train_viewer_window.close()

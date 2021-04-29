@@ -98,8 +98,8 @@ class DigitRecogniserController():
         probabilities = self.digit_recogniser.recognise_user_digit()
         probabilities = probabilities.detach().numpy()
         max_digit = numpy.where(probabilities == numpy.amax(probabilities))
-        self.main_window_control.centralWidgetController.probabilityController.setProbability(probabilities * 100)
-        self.main_window_control.centralWidgetController.set_predicted_digit(str(max_digit[0][0]))
+        self.main_window_control.central_widget_controller.probability_controller.set_probability(probabilities * 100)
+        self.main_window_control.central_widget_controller.set_predicted_digit(str(max_digit[0][0]))
     
     def set_basic_model(self):
         self.digit_recogniser.create_model(BasicNN)

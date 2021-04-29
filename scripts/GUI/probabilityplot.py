@@ -20,7 +20,7 @@ class ProbabilityPlot(FigureCanvasQTAgg):
 
         FigureCanvasQTAgg.__init__(self, self.fig)
     
-    def setProbability(self, probabilities):
+    def set_probability(self, probabilities):
         self.probabilities = probabilities
 
         self.axes.clear()

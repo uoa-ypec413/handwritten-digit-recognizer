@@ -9,47 +9,47 @@ class MainWindowControl():
         self.main_window = MainWindow(app)
         self.digit_recogniser_controller = digit_recogniser_controller
         self.training_window_control = TrainingWindowControl(digit_recogniser_controller)
-        self.centralWidgetController = CentralWidgetControl(self.main_window, digit_recogniser_controller)
-        self.viewerWindowController = ViewerWindowController(digit_recogniser_controller)        
-        self.onExitActionClick()
-        self.onTrainModelActionClick()
-        self.onTrainingImagesActionClick()
-        self.onTestingImagesActionClick()
-        self.onBasicNNActionClick()
-        self.onleNet5ActionClick()
-        self.onadjustedLeNet5ActionClick()
-        self.onLoadModelActionClick()
-        self.onSaveModelActionClick()
+        self.central_widget_controller = CentralWidgetControl(self.main_window, digit_recogniser_controller)
+        self.viewer_window_controller = ViewerWindowController(digit_recogniser_controller)        
+        self.on_exit_action_click()
+        self.on_train_model_action_click()
+        self.on_training_images_action_click()
+        self.on_testing_images_action_click()
+        self.on_basic_nn_action_click()
+        self.on_lenet5_action_click()
+        self.on_adjusted_lenet5_action_click()
+        self.on_load_model_action_click()
+        self.on_save_model_action_click()
         
-    def onExitActionClick(self):
-        self.main_window.exitAction.triggered.connect(self.main_window.quitWindow)
+    def on_exit_action_click(self):
+        self.main_window.exit_action.triggered.connect(self.main_window.quit_window)
 
-    def onTrainModelActionClick(self):
-        self.main_window.trainModelAction.triggered.connect(self.training_window_control.showTrainingWindow)
+    def on_train_model_action_click(self):
+        self.main_window.train_model_action.triggered.connect(self.training_window_control.show_training_window)
     
-    def onTrainingImagesActionClick(self):
-      self.main_window.viewTrainingImagesAction.triggered.connect(self.viewerWindowController.showTrainingViewerWindow)
+    def on_training_images_action_click(self):
+      self.main_window.view_training_images_action.triggered.connect(self.viewer_window_controller.show_training_viewer_window)
      
-    def onTestingImagesActionClick(self):
-      self.main_window.viewTestingImagesAction.triggered.connect(self.viewerWindowController.showTestingViewerWindow)
+    def on_testing_images_action_click(self):
+      self.main_window.view_testing_images_action.triggered.connect(self.viewer_window_controller.show_testing_viewer_window)
 
-    def onBasicNNActionClick(self):
-        self.main_window.basicNNAction.triggered.connect(self.digit_recogniser_controller.set_basic_model)
+    def on_basic_nn_action_click(self):
+        self.main_window.basic_nn_action.triggered.connect(self.digit_recogniser_controller.set_basic_model)
     
-    def onleNet5ActionClick(self):
-        self.main_window.leNet5Action.triggered.connect(self.digit_recogniser_controller.set_LN5_model)
+    def on_lenet5_action_click(self):
+        self.main_window.lenet5_action.triggered.connect(self.digit_recogniser_controller.set_LN5_model)
     
-    def onadjustedLeNet5ActionClick(self):
-        self.main_window.adjustedLeNet5Action.triggered.connect(self.digit_recogniser_controller.set_ALN5_model)
+    def on_adjusted_lenet5_action_click(self):
+        self.main_window.adjusted_lenet5_action.triggered.connect(self.digit_recogniser_controller.set_ALN5_model)
     
-    def onLoadModelActionClick(self):
-        self.main_window.loadModelAction.triggered.connect(self.load_model)
+    def on_load_model_action_click(self):
+        self.main_window.load_model_action.triggered.connect(self.load_model)
 
-    def onSaveModelActionClick(self):
-        self.main_window.saveModelAction.triggered.connect(self.save_model)
+    def on_save_model_action_click(self):
+        self.main_window.save_model_action.triggered.connect(self.save_model)
     
-    def enableDatasetViewer(self):
-        self.main_window.enableDataSetViewer()
+    def enable_dataset_viewer(self):
+        self.main_window.enable_dataset_viewer()
     
     def load_model(self):
         file_name = QFileDialog.getOpenFileName(self.main_window, "Load Model",

@@ -17,81 +17,75 @@ class ViewerWindow(QWidget):
         self.setWindowIcon(QIcon('media\logo.png'))
         
         self.display(pages)
-        
 
     def center(self):
-        qRectangle = self.frameGeometry() # get window geometry
-        centerPosition = QDesktopWidget().availableGeometry().center() # get monitor center position
-        qRectangle.moveCenter(centerPosition)
-        self.move(qRectangle.topLeft()) # move window to monitor centre position
+        window_geometry = self.frameGeometry() # get window geometry
+        center_position = QDesktopWidget().availableGeometry().center() # get monitor center position
+        window_geometry.moveCenter(center_position)
+        self.move(window_geometry.topLeft()) # move window to monitor centre position
 
-    def addOkButton(self):
-        self.okButton = QPushButton('Ok')
+    def add_ok_button(self):
+        self.ok_button = QPushButton('Ok')
 
-    def setOkButtonLayout(self):
+    def set_ok_button_layout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.okButton)
-        
+        hbox.addWidget(self.ok_button)
         return hbox
 
-    def addPageSelect(self, pages):
-        self.pageSelectLabel = QLabel('Page:')
-        self.pageComboBox = QComboBox(self)
+    def add_page_select(self, pages):
+        self.page_select_label = QLabel('Page:')
+        self.page_combobox = QComboBox(self)
         pages = numpy.arange(1, pages + 1)
         for page in pages:
-            self.pageComboBox.addItem(str(page))
+            self.page_combobox.addItem(str(page))
 
-    def addDigitSelect(self):
-        self.digitSelectLabel = QLabel('Digit:')
-        self.digitComboBox = QComboBox(self)
+    def add_digit_select(self):
+        self.digit_select_label = QLabel('Digit:')
+        self.digit_combobox = QComboBox(self)
         digits = numpy.arange(10)
         for digit in digits:
-            self.digitComboBox.addItem(str(digit))
+            self.digit_combobox.addItem(str(digit))
     
-    def setPageSelectLayout(self):
+    def set_page_select_layout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.pageSelectLabel)
-        hbox.addWidget(self.pageComboBox)
-        
+        hbox.addWidget(self.page_select_label)
+        hbox.addWidget(self.page_combobox)
         return hbox
 
-    def setDigitSelectLayout(self):
+    def set_digit_select_layout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.digitSelectLabel)
-        hbox.addWidget(self.digitComboBox)
-        
+        hbox.addWidget(self.digit_select_label)
+        hbox.addWidget(self.digit_combo_box)
         return hbox
 
-    def addAllSelect(self):
-        self.allSelectLabel = QLabel('All')
-        self.allSelectCheckBox = QCheckBox()
+    def add_all_select(self):
+        self.all_select_label = QLabel('All')
+        self.all_select_checkbox = QCheckBox()
 
-    def setAllSelectLayout(self):
+    def set_all_select_layout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.allSelectLabel)
-        hbox.addWidget(self.allSelectCheckBox)
-        
+        hbox.addWidget(self.all_select_label)
+        hbox.addWidget(self.all_select_checkbox)
         return hbox
 
-    def setButtonLayout(self):
+    def set_button_layout(self):
         vbox = QVBoxLayout()
-        vbox.addLayout(self.setPageSelectLayout())
+        vbox.addLayout(self.set_page_select_layout())
         vbox.addStretch(1)
-        vbox.addLayout(self.setOkButtonLayout())
-
+        vbox.addLayout(self.set_ok_button_layout())
         return vbox
 
-    def setBoxLayout(self):
+    def set_box_layout(self):
         hbox = QHBoxLayout()
-        hbox.addWidget(self.scrollArea)
-        hbox.addLayout(self.setButtonLayout())
+        hbox.addWidget(self.scroll_area)
+        hbox.addLayout(self.set_button_layout())
 
         self.setLayout(hbox)
 
     def display(self, pages):
         self.resize(1100, 800)
         self.center()
-        self.addOkButton()
-        self.addPageSelect(pages)
-        self.scrollArea = QScrollArea()
-        self.setBoxLayout()
+        self.add_ok_button()
+        self.add_page_select(pages)
+        self.scroll_area = QScrollArea()
+        self.set_box_layout()

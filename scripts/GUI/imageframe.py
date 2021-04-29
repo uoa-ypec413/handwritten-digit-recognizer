@@ -9,27 +9,27 @@ class ImageFrame(QFrame):
     def __init__(self):
         super().__init__()
         self.page = 0
-        self.imageGrid = QGridLayout()
-        self.setLayout(self.imageGrid)
+        self.image_grid = QGridLayout()
+        self.setLayout(self.image_grid)
         self.image = QPixmap(28, 28)
         self.image = self.image.scaled(100, 100)
-        self.imageArray = []
+        self.image_array = []
         for i in range(100):
             self.image.fill(Qt.black)
             label = QLabel()
             label.setPixmap(self.image)
-            self.imageArray.append(label)
+            self.image_array.append(label)
         
-        self.addImages()
+        self.add_images()
         
 
     def render_dataset(self, dataset):
-        self.imageArray = []
+        self.image_array = []
         
         page_range = (self.page * 100, (self.page + 1) * 100)
-        dataArray = dataset.data[page_range[0]:page_range[1]]
+        data_array = dataset.data[page_range[0]:page_range[1]]
 
-        for data in dataArray:
+        for data in data_array:
             in_image = data
             in_image = np.array(in_image, dtype='uint8').reshape((28, 28))
             image = QImage(in_image, 28, 28, 28, QImage.Format_Indexed8)
@@ -37,17 +37,17 @@ class ImageFrame(QFrame):
             image = image.scaled(100, 100)
             label = QLabel()
             label.setPixmap(QPixmap.fromImage(image))
-            self.imageArray.append(label)
+            self.image_array.append(label)
 
-        self.addImages()
+        self.add_images()
     
-    def addImages(self):
+    def add_images(self):
         self.row = 0
         self.column = 0
 
-        for images in self.imageArray:
+        for images in self.image_array:
             
-            self.imageGrid.addWidget(images, self.row, self.column)
+            self.image_grid.addWidget(images, self.row, self.column)
 
             if self.column == 7:
                 self.row += 1
@@ -56,5 +56,5 @@ class ImageFrame(QFrame):
                 self.column += 1
 
 
-    def setPage(self, page):
+    def set_page(self, page):
         self.page = page
