@@ -1,18 +1,22 @@
+# Controllers for the Viewer Window GUI Module
+
 from GUI.ViewerWindow import *
 from GUI.ImageFrame import *
 
+# Controller for the Image Frame GUI module
 class ImageFrameController():
     def __init__(self):
         self.image_frame = ImageFrame()
     
     def update_page(self, page):
         self.image_frame.set_page(page)
-        self.load_dataset(self.dataset)
+        self.image_frame.render_dataset(dataset)
     
     def load_dataset(self, dataset):
         self.dataset = dataset
         self.image_frame.render_dataset(dataset)
 
+# Controller for the Viewer Window GUI module, creates a viewer window each for the training and testing dataset
 class ViewerWindowController():
     def __init__(self, digit_recogniser_controller):
         self.test_image_frame_controller = ImageFrameController()
@@ -26,9 +30,9 @@ class ViewerWindowController():
         self.test_viewer_window.scroll_area.setWidget(self.test_image_frame_controller.image_frame)
         self.train_viewer_window.scroll_area.setWidget(self.train_image_frame_controller.image_frame)
 
+        # Signal-slot connections
         self.test_viewer_window.page_combobox.currentIndexChanged.connect(self.set_test_page)
         self.train_viewer_window.page_combobox.currentIndexChanged.connect(self.set_train_page)
-
         self.test_viewer_window.ok_button.clicked.connect(self.close_test_viewer)
         self.train_viewer_window.ok_button.clicked.connect(self.close_train_viewer)
     

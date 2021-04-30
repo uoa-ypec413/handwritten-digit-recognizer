@@ -1,12 +1,16 @@
+# Controllers for the digit recogniser model module.
+
 from AI.DigitRecogniser import *
 from PyQt5.QtCore import QObject, QThread
 from PyQt5.QtCore import pyqtSignal
 import numpy
 
+# QObject that runs functions inside of a QThread,
+# Downloads the MNIST database, ensuring that the GUI does not hang.
 class DownloadWorker(QObject):
-    finished = pyqtSignal()
-    progress = pyqtSignal(int)
-    status = pyqtSignal(str)
+    finished = pyqtSignal() # Signals that download is finished
+    progress = pyqtSignal(int) # Signals progress %
+    status = pyqtSignal(str) # Signals progress string
 
     def __init__(self, digit_recogniser):
         super().__init__()
@@ -27,10 +31,12 @@ class DownloadWorker(QObject):
 
         self.finished.emit()
 
+# QObject that runs functions inside of a QThread,
+# Trains the model, ensuring that the GUI does not hang.
 class TrainWorker(QObject):
-    finished = pyqtSignal()
-    status = pyqtSignal(str)
-    progress = pyqtSignal(int)
+    finished = pyqtSignal() # Signals that download is finished
+    progress = pyqtSignal(int) # Signals progress %
+    status = pyqtSignal(str) # Signals progress string
 
     def __init__(self, digit_recogniser):
         super().__init__()
@@ -59,41 +65,42 @@ class DigitRecogniserController():
         self.training_window_controller = self.main_window_controller.training_window_controller
 
     def download_data(self, signal):
-        self.download_thread = QThread()
-        self.download_worker = DownloadWorker(self.digit_recogniser)
-        self.download_worker.moveToThread(self.download_thread)
+        self.download_thread = QThread() # Start a QThread
+        self.download_worker = DownloadWorker(self.digit_recogniser) # Initialise worker object
+        self.download_worker.moveToThread(self.download_thread) # Move worker to the thread
 
-        self.download_thread.started.connect(self.download_worker.run)
-        self.download_worker.finished.connect(self.download_thread.quit)
-        self.download_worker.finished.connect(self.download_worker.deleteLater)
-        self.download_thread.finished.connect(self.download_thread.deleteLater)
-        self.download_worker.progress.connect(self.training_window_controller.on_progress_update)
-        self.download_worker.status.connect(self.training_window_controller.update_console)
+        self.download_thread.started.connect(self.download_worker.run) # When the thread is started, run the worker
+        self.download_worker.finished.connect(self.download_thread.quit) # When the worker is finished, close the thread
+        self.download_worker.finished.connect(self.download_worker.deleteLater) # When the worker is finished, delete the worker
+        self.download_thread.finished.connect(self.download_thread.deleteLater) # When the thread is finished, delete the thread
+        self.download_worker.progress.connect(self.training_window_controller.on_progress_update) # Pass progress to training window controller
+        self.download_worker.status.connect(self.training_window_controller.update_console) # Pass progress to training window controller
         
-        self.download_thread.start()
+        self.download_thread.start() # Start the thread
 
     def train(self):
-        self.train_thread = QThread()
-        self.train_worker = TrainWorker(self.digit_recogniser)
-        self.train_worker.moveToThread(self.train_thread)
+        self.train_thread = QThread() # Start a QThread
+        self.train_worker = TrainWorker(self.digit_recogniser) # Initialise worker object
+        self.train_worker.moveToThread(self.train_thread) # Move worker to the thread
 
-        self.train_worker.status.connect(self.training_window_controller.update_console)
-        self.train_thread.started.connect(self.training_window_controller.reset_progress)
-        self.train_worker.progress.connect(self.training_window_controller.on_progress_update)
+        self.train_worker.status.connect(self.training_window_controller.update_console) # Pass progress to training window controller
+        self.train_thread.started.connect(self.training_window_controller.reset_progress) # Pass progress to training window controller
+        self.train_worker.progress.connect(self.training_window_controller.on_progress_update) # Pass progress to training window controller
 
-        self.train_thread.started.connect(self.train_worker.run)
+        self.train_thread.started.connect(self.train_worker.run) # When the thread is started, run the worker
 
-        self.train_worker.finished.connect(self.train_thread.quit)
-        self.train_thread.finished.connect(self.train_thread.deleteLater)
-        self.train_worker.finished.connect(self.train_worker.deleteLater)
-        self.train_thread.finished.connect(self.training_window_controller.on_training_complete)
+        self.train_worker.finished.connect(self.train_thread.quit) # When the worker is finished, close the thread
+        self.train_thread.finished.connect(self.train_thread.deleteLater) # When the worker is finished, delete the thread
+        self.train_worker.finished.connect(self.train_worker.deleteLater) # When the worker is finished, delete the worker
+        self.train_thread.finished.connect(self.training_window_controller.on_training_complete) # Training window controller function call
 
-        self.train_thread.start()
+        self.train_thread.start() # Start the thread
 
     def cancel_training(self):
         if self.train_thread.isRunning:
             self.digit_recogniser.cancel_train_model()
 
+    # Recognise the current user digit, pass probabilities and predicted digit to the main window controller.
     def recognise_digit(self):
         probabilities = self.digit_recogniser.recognise_user_digit()
         probabilities = probabilities.detach().numpy()
@@ -101,18 +108,23 @@ class DigitRecogniserController():
         self.main_window_controller.central_widget_controller.probability_controller.set_probability(probabilities * 100)
         self.main_window_controller.central_widget_controller.set_predicted_digit(str(max_digit[0][0]))
     
+    # Set the model to a new basic NN model
     def set_basic_model(self):
         self.digit_recogniser.create_model(BasicNN)
     
+    # Set the model to a new LeNet-5 model
     def set_LN5_model(self):
         self.digit_recogniser.create_model(LeNet5)
     
+    # Set the model to a new Adjusted LeNet-5 model
     def set_ALN5_model(self):
         self.digit_recogniser.create_model(AdjustedLeNet5)
     
+    # Load a model given a path
     def load_model(self, file_name):
         self.digit_recogniser.load_model(file_name)
 
+    # Save the model given a path
     def save_model(self, file_name):
         self.digit_recogniser.save_model(file_name)
 

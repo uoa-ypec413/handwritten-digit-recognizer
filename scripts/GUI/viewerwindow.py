@@ -1,3 +1,5 @@
+# This is the window that allows the user to view either the training or testing dataset
+
 from PyQt5.QtWidgets import *
 from GUI.ImageFrame import *
 import numpy

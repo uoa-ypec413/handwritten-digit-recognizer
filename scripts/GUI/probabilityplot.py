@@ -1,3 +1,5 @@
+# Generates a bar-graph for the probability of each class
+
 import numpy
 import matplotlib
 matplotlib.use('Qt5Agg')

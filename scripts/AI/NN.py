@@ -1,11 +1,11 @@
 from torch import nn # Import neural network model
 import torch.nn.functional as F
 
+# Basic, 2-layer, linear NN.
 class BasicNN(nn.Module):
 
     def __init__(self):
         super(BasicNN, self).__init__()
-        # Start with a basic 2-layer neural network
         self.l1 = nn.Linear(784, 392)
         self.l2 = nn.Linear(392, 10)
 
@@ -14,6 +14,7 @@ class BasicNN(nn.Module):
         x = F.relu(self.l1(x))
         return F.softmax(self.l2(x), 1)
 
+# LeNet-5 Model by Yann LeCun
 class LeNet5(nn.Module):
     
     def __init__(self):
@@ -38,6 +39,7 @@ class LeNet5(nn.Module):
         x = F.softmax(self.fc3(x))
         return x
 
+# Adjusted LeNet-5 Model
 class AdjustedLeNet5(nn.Module):
     
     def __init__(self):

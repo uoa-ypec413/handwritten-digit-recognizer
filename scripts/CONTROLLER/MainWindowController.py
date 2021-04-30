@@ -1,3 +1,5 @@
+# Controller for the Main Window GUI Module
+
 from GUI.MainWindow import *
 from CONTROLLER.TrainingWindowController import *
 from CONTROLLER.CentralWidgetController import *
@@ -12,6 +14,7 @@ class MainWindowController():
         self.central_widget_controller = CentralWidgetController(self.main_window, digit_recogniser_controller)
         self.viewer_window_controller = ViewerWindowController(digit_recogniser_controller)
 
+        # Signal-Slot Connections
         self.on_exit_action_click()
         self.on_train_model_action_click()
         self.on_training_images_action_click()
@@ -56,12 +59,12 @@ class MainWindowController():
         file_name = QFileDialog.getOpenFileName(self.main_window, "Load Model",
                                        "models/",
                                        "Digit Recognizer Models (*.pt)")
-        if file_name[0]:
+        if file_name[0]: # If path isn't empty
             self.digit_recogniser_controller.load_model(file_name)
     
     def save_model(self):
         file_name = QFileDialog.getSaveFileName(self.main_window, "Save Model",
                                        "models/new_model.pt",
                                        "Digit Recognizer Models (*.pt)")
-        if file_name[0]:
+        if file_name[0]: # If path isn't empty
             self.digit_recogniser_controller.save_model(file_name)

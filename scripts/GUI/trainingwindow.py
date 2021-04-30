@@ -1,3 +1,5 @@
+# This is the window from which the user can download the MNIST dataset and train the model
+
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore

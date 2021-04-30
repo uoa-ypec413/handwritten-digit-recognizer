@@ -1,3 +1,5 @@
+# This is the main window for the program
+
 import sys
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QAction, QApplication
 from PyQt5.QtGui import QIcon

@@ -1,4 +1,4 @@
-# this is the main file for project 1.
+# This is the main file for the program. Run this script to run the program.
 
 from CONTROLLER.MainWindowController import *
 from CONTROLLER.DigitRecogniserController import *

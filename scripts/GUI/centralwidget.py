@@ -1,3 +1,5 @@
+# Central widget for the main window
+
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QLabel
 from PyQt5 import QtCore
 
@@ -17,6 +19,7 @@ class CentralWidget(QWidget):
 
         self.add_box_layout()
 
+    # Layout function for the central widget
     def add_box_layout(self):
         vbox = QVBoxLayout()
         vbox.addWidget(self.clear_button)
