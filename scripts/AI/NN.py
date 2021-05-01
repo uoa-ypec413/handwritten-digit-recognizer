@@ -1,3 +1,5 @@
+# This contains the Neural Network classes for each model type: Basic, LeNet-5, and Adjusted LeNet-5
+
 from torch import nn # Import neural network model
 import torch.nn.functional as F
 

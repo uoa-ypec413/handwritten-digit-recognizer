@@ -1,3 +1,5 @@
+# Data class, contains methods for importing and loading data from the MNIST database
+
 from torchvision import datasets, transforms
 from torch.utils import data
 

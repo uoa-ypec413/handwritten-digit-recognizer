@@ -6,10 +6,11 @@ from CONTROLLER.CentralWidgetController import *
 from CONTROLLER.ViewerWindowController import *
 
 class MainWindowController():
-
+    # Takes the digit recogniser controller as many functions need this
     def __init__(self, app, digit_recogniser_controller):
         self.main_window = MainWindow(app)
         self.digit_recogniser_controller = digit_recogniser_controller
+        # Create GUI Controller instances
         self.training_window_controller = TrainingWindowController(digit_recogniser_controller)
         self.central_widget_controller = CentralWidgetController(self.main_window, digit_recogniser_controller)
         self.viewer_window_controller = ViewerWindowController(digit_recogniser_controller)

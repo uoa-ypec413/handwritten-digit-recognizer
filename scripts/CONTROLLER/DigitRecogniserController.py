@@ -12,6 +12,7 @@ class DownloadWorker(QObject):
     progress = pyqtSignal(int) # Signals progress %
     status = pyqtSignal(str) # Signals progress string
 
+    # Take the digit recogniser and save it in order to download the dataset
     def __init__(self, digit_recogniser):
         super().__init__()
         self.digit_recogniser = digit_recogniser
@@ -40,11 +41,12 @@ class TrainWorker(QObject):
     progress = pyqtSignal(int) # Signals progress %
     status = pyqtSignal(str) # Signals progress string
 
+    # Take the digit recogniser and save it in order to train the model
     def __init__(self, digit_recogniser):
         super().__init__()
         self.digit_recogniser = digit_recogniser
         
-        # Signal-slot connections
+        # Signal-slot connections for reporting progress via % and text messages
         self.digit_recogniser.progress_signal.connect(self.update_progress)
         self.digit_recogniser.status_signal.connect(self.update_status)
 
@@ -62,7 +64,6 @@ class TrainWorker(QObject):
     # Update console
     def update_status(self, string):
         self.status.emit(string)
-
 
 class DigitRecogniserController():
     def __init__(self):
@@ -111,10 +112,12 @@ class DigitRecogniserController():
     # Recognise the current user digit, pass probabilities and predicted digit to the main window controller.
     def recognise_digit(self):
         probabilities = self.digit_recogniser.recognise_user_digit()
+        # Convert tensor to numpy array by first removing the gradient from the tensor,
+        # then converting to numpy array.
         probabilities = probabilities.detach().numpy()
-        max_digit = numpy.where(probabilities == numpy.amax(probabilities))
-        self.main_window_controller.central_widget_controller.probability_controller.set_probability(probabilities * 100)
-        self.main_window_controller.central_widget_controller.set_predicted_digit(str(max_digit[0][0]))
+        max_digit = numpy.where(probabilities == numpy.amax(probabilities)) # Find the most probable digit
+        self.main_window_controller.central_widget_controller.probability_controller.set_probability(probabilities * 100) # Send the list of probabilities to the central widget controller
+        self.main_window_controller.central_widget_controller.set_predicted_digit(str(max_digit[0][0])) # Send the most probable digit to the central widget controller
     
     # Set the model to a new basic NN model
     def set_basic_model(self):

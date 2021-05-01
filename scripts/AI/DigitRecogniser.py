@@ -1,7 +1,4 @@
 # This is the script for the AI behind the handwritten digit recognizer program.
-# Current version is 1.0.1, most recent change 1.0.0-->1.0.1: Add header.
-# Model is 2-layer 784-->392, 392-->10
-# Relu function is applied after the first layer
 
 # Include relevant libraries
 from __future__ import print_function # Allows us to do fancier print statements
@@ -68,9 +65,9 @@ class DigitRecogniser(QObject):
 
     # Test a model.
     def test(self):
-        self.tp = [0,0,0,0,0,0,0,0,0,0] # Track true positives for each number
-        self.fp = [0,0,0,0,0,0,0,0,0,0] # Track false positives for each number
-        self.fn = [0,0,0,0,0,0,0,0,0,0] # Track false negatives for each number
+        self.true_positives = [0,0,0,0,0,0,0,0,0,0] # Track true positives for each number
+        self.false_positives = [0,0,0,0,0,0,0,0,0,0] # Track false positives for each number
+        self.false_negatives = [0,0,0,0,0,0,0,0,0,0] # Track false negatives for each number
         self.total = [0,0,0,0,0,0,0,0,0,0] # Track total for each number
         self.precision = [0,0,0,0,0,0,0,0,0,0] # Track precision of each number
         self.recall = [0,0,0,0,0,0,0,0,0,0] # Track recall of each number
@@ -85,28 +82,25 @@ class DigitRecogniser(QObject):
                 return
             data, target = data.to(self.device), target.to(self.device) # Use CUDA if available
             output = self.model(data) # Get predictions from the model
-            # sum up batch loss
-            test_loss += self.criterion(output, target).item()
-            # get the index of the max to get prediction
-            pred = output.data.max(1, keepdim=True)[1]
-            # get the number of correct guesses
-            correct += pred.eq(target.data.view_as(pred)).cpu().sum()
+            test_loss += self.criterion(output, target).item() # sum up batch loss
+            predictions = output.data.max(1, keepdim=True)[1] # get the index of the max to get prediction
+            correct += predictions.eq(target.data.view_as(predictions)).cpu().sum() # get the number of correct guesses
 
             # get the number of true and false positives
-            for i in range(len(pred)):
-                self.total[pred[i]] += 1
-                if pred[i] == target[i]:
-                    self.tp[pred[i]] += 1                    
+            for i in range(len(predictions)):
+                self.total[predictions[i]] += 1
+                if predictions[i] == target[i]:
+                    self.true_positives[predictions[i]] += 1                    
                 else:
-                    self.fp[pred[i]] += 1
-                    self.fn[target[i]] += 1
+                    self.false_positives[predictions[i]] += 1
+                    self.false_negatives[target[i]] += 1
         # calculate precision and recall rates for each number
         for i in range(10):
-            if self.tp[i] == (self.tp[i] + self.fp[i]):
+            if self.true_positives[i] == (self.true_positives[i] + self.false_positives[i]):
                 self.precision[i] = 1
             else:
-                self.precision[i] = self.tp[i]/(self.tp[i] + self.fp[i])
-            self.recall[i] = self.tp[i]/(self.tp[i] + self.fn[i])
+                self.precision[i] = self.true_positives[i]/(self.true_positives[i] + self.false_positives[i])
+            self.recall[i] = self.true_positives[i]/(self.true_positives[i] + self.false_negatives[i])
         # find the overall precision, recall rate and f1 score
         precision_rate = sum(self.precision)/len(self.precision)
         recall_rate = sum(self.recall)/len(self.recall)
@@ -146,14 +140,13 @@ class DigitRecogniser(QObject):
             m, s = divmod(time.time() - since, 60)
             print(f'Total Time: {m:.0f}m {s:.0f}s\nModel was trained on {self.device}!')
 
-
     def recognise_user_digit(self):
         image = io.read_image('user_data/digit_drawing.jpg')
         # Put into format expected by model
         image = transforms.functional.invert(image) / 255
         user_input_process = transforms.Compose([transforms.Grayscale(), transforms.Resize((28, 28))])
         image = user_input_process(image)
-        image = image.unsqueeze(0)
+        image = image.unsqueeze(0) # Add empty dimension
         # Get prediction from model
         output = self.model(image)
         print(f'Probability of each possible digit:\n\
