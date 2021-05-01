@@ -1,6 +1,7 @@
+# Central widget for the main window
+
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QLabel
 from PyQt5 import QtCore
-from GUI.probabilityplot import *
 
 class CentralWidget(QWidget):
 
@@ -8,41 +9,38 @@ class CentralWidget(QWidget):
         super().__init__()
 
         self.controller = controller
-        self.controller.setCentralWidget(self)
 
-        self.clearButton = QPushButton('Clear')
-        self.modelButton = QPushButton('Model')
-        self.recogniseButton = QPushButton('Recognise')
+        self.clear_button = QPushButton('Clear')
+        self.model_button = QPushButton('Model')
+        self.recognise_button = QPushButton('Recognise')
 
-        self.modelButton.clicked.connect(self.controller.openModel)
-        self.clearButton.clicked.connect(self.controller.canvasController.clear)
+        self.add_predicted_digit()
+        self.set_predicted_digit(' ')
 
-        self.addPredictedDigit()
-        self.setPredictedDigit(' ')
+        self.add_box_layout()
 
-        self.addBoxLayout()
-
-    def addBoxLayout(self):
+    # Layout function for the central widget
+    def add_box_layout(self):
         vbox = QVBoxLayout()
-        vbox.addWidget(self.clearButton)
-        vbox.addWidget(self.modelButton)
-        vbox.addWidget(self.recogniseButton)
-        vbox.addWidget(self.controller.probabilityController.plot)
-        vbox.addWidget(self.predictedDigit)
+        vbox.addWidget(self.clear_button)
+        vbox.addWidget(self.model_button)
+        vbox.addWidget(self.recognise_button)
+        vbox.addWidget(self.controller.probability_controller.plot)
+        vbox.addWidget(self.predicted_digit)
 
         hbox = QHBoxLayout()
-        hbox.addWidget(self.controller.canvasController.canvas)
+        hbox.addWidget(self.controller.canvas_controller.canvas)
         hbox.addLayout(vbox)
 
         self.setLayout(hbox)
 
-    def addPredictedDigit(self):
-        self.predictedDigit = QLabel()
-        self.predictedDigit.setAlignment(QtCore.Qt.AlignCenter)
-        font = self.predictedDigit.font()
+    def add_predicted_digit(self):
+        self.predicted_digit = QLabel()
+        self.predicted_digit.setAlignment(QtCore.Qt.AlignCenter)
+        font = self.predicted_digit.font()
         font.setPointSize(36)
-        self.predictedDigit.setFont(font)
-        self.predictedDigit.setStyleSheet("border: 1px solid black;") # set border
+        self.predicted_digit.setFont(font)
+        self.predicted_digit.setStyleSheet("border: 1px solid black;") # set border
     
-    def setPredictedDigit(self, d):
-        self.predictedDigit.setText(d)
+    def set_predicted_digit(self, d):
+        self.predicted_digit.setText(d)

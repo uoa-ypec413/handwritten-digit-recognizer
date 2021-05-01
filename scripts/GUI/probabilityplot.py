@@ -1,10 +1,12 @@
+# Generates a bar-graph for the probability of each class
+
 import numpy
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
-class probabilityPlot(FigureCanvasQTAgg):
+class ProbabilityPlot(FigureCanvasQTAgg):
 
     def __init__(self):
         self.fig = Figure()
@@ -20,7 +22,7 @@ class probabilityPlot(FigureCanvasQTAgg):
 
         FigureCanvasQTAgg.__init__(self, self.fig)
     
-    def setProbability(self, probabilities):
+    def set_probability(self, probabilities):
         self.probabilities = probabilities
 
         self.axes.clear()
