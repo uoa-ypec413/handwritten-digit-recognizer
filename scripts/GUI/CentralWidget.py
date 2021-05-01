@@ -36,7 +36,8 @@ class CentralWidget(QWidget):
 
         self.setLayout(hbox)
 
-    # Adds the predicted digit display in the lower right-hand corner of the main window
+    # Adds the predicted digit display in the lower right-hand corner of the main window.
+    # The predicted digit is the digit class that the model thinks is most likely for a given user drawing.
     def add_predicted_digit(self):
         self.predicted_digit = QLabel()
         self.predicted_digit.setAlignment(QtCore.Qt.AlignCenter)
