@@ -69,6 +69,9 @@ class MainWindow(QMainWindow):
         self.view_training_images_action.setEnabled(False)
         self.view_testing_images_action.setEnabled(False)
 
+    # Initially the dataset viewer buttons in the menu are disabled.
+    # Once the MNIST database has been downloaded this function is called
+    # to enable them.
     def enable_dataset_viewer(self):
         self.view_testing_images_action.setEnabled(True)
         self.view_training_images_action.setEnabled(True)

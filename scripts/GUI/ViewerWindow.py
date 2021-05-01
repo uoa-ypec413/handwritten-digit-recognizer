@@ -7,6 +7,8 @@ from PyQt5.QtGui import QIcon
 
 class ViewerWindow(QWidget):
 
+    # Take the number of pages and the name of the window.
+    # Initialise the viewer window to display the correct number of pages and window name.
     def __init__(self, pages, name: str):
         super().__init__()
         self.name = name
@@ -20,6 +22,7 @@ class ViewerWindow(QWidget):
         
         self.display(pages)
 
+    # Center the window in the user's display
     def center(self):
         window_geometry = self.frameGeometry() # get window geometry
         center_position = QDesktopWidget().availableGeometry().center() # get monitor center position
@@ -37,14 +40,19 @@ class ViewerWindow(QWidget):
     def add_page_select(self, pages):
         self.page_select_label = QLabel('Page:')
         self.page_combobox = QComboBox(self)
+        # Create a list of every whole number between 1 and pages + 1.
+        # This is the human-readable list of possible pages for the user to select from.
         pages = numpy.arange(1, pages + 1)
+        # Add each page number as an item in the page select combobox
         for page in pages:
             self.page_combobox.addItem(str(page))
 
     def add_digit_select(self):
         self.digit_select_label = QLabel('Digit:')
         self.digit_combobox = QComboBox(self)
+        # Generate a list of whole numbers from 0 to 9, which acts as the list of digit classes
         digits = numpy.arange(10)
+        # Add each digit to the digit selection combobox
         for digit in digits:
             self.digit_combobox.addItem(str(digit))
     
@@ -89,5 +97,5 @@ class ViewerWindow(QWidget):
         self.center()
         self.add_ok_button()
         self.add_page_select(pages)
-        self.scroll_area = QScrollArea()
+        self.scroll_area = QScrollArea() # Create a scrollable area to contain the images in the dataset
         self.set_box_layout()

@@ -18,27 +18,34 @@ class TrainingWindow(QWidget):
         self.set_box_layout()
         self.setWindowIcon(QIcon('media\logo.png'))
 
+    # Center the window in the user's display
     def center(self):
         window_geometry = self.frameGeometry() # get window geometry
         center_position = QDesktopWidget().availableGeometry().center() # get monitor center position
         window_geometry.moveCenter(center_position)
         self.move(window_geometry.topLeft()) # move window to monitor centre position
 
+    # Add buttons to download the dataset, train the current model, and cancel the current training routine
     def add_buttons(self):
         self.download_button = QPushButton('Download MNIST')
         self.train_button = QPushButton('Train')
         self.cancel_button = QPushButton('Cancel')
 
+    # Add a progress bar to show download/epoch progress
     def add_progress_bar(self):
         self.progress_bar = QProgressBar()
     
+    # Add a console to display messages to the user
     def add_console(self):
         self.console = QPlainTextEdit()
-        self.console.setReadOnly(True)
+        self.console.setReadOnly(True) # Prevent user from typing into the console
     
+    # Append a message to the console
     def append_console(self, message):
         self.console.insertPlainText(message)
 
+    # Set the layout for the buttons to be horizontal, 
+    # disable training and cancel buttons until dataset has been downloaded
     def set_button_layout(self):
         hbox = QHBoxLayout()
         hbox.addStretch(1)
@@ -68,6 +75,9 @@ class TrainingWindow(QWidget):
     def set_progress_bar_layout(self):
         self.progress_bar.setAlignment(QtCore.Qt.AlignCenter)
 
+    # Create the layout for the training window,
+    # with the console stacked on top of the progress bar
+    # which is stacked on top of the buttons.
     def set_box_layout(self):
         self.set_progress_bar_layout()
     

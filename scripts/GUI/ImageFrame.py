@@ -10,14 +10,15 @@ class ImageFrame(QFrame):
 
     def __init__(self):
         super().__init__()
-        self.page = 0
-        self.image_grid = QGridLayout()
-        self.setLayout(self.image_grid)
+        self.page = 0 # Initially on page 1, with an index of 0
+        self.image_grid = QGridLayout() # Create the image grid
+        self.setLayout(self.image_grid) # Set the layout of the frame to the image grid
 
         # Images are 28x28 pixels, scaled up to 100x100
         self.image = QPixmap(28, 28)
         self.image = self.image.scaled(100, 100)
 
+        # Create the blank array to hold images
         self.image_array = []
 
         # Generate 100 blank placeholder images for initialization
@@ -46,6 +47,9 @@ class ImageFrame(QFrame):
 
             image = image.scaled(100, 100)
             label = QLabel()
+            
+            # Once the image has been created it needs to be converted to a QPixmap object before
+            # it can be assigned to a label for display.
             label.setPixmap(QPixmap.fromImage(image))
             self.image_array.append(label)
 

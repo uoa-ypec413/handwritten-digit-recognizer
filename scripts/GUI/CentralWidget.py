@@ -5,18 +5,24 @@ from PyQt5 import QtCore
 
 class CentralWidget(QWidget):
 
+    # Initialises the central widget, takes it's controller object as an input
+    # so that it can access the controllers for the probability plot and canvas
+    # which allows them to be added to the layout.
     def __init__(self, controller):
         super().__init__()
 
-        self.controller = controller
+        self.controller = controller # save the controller
 
+        # Create buttons
         self.clear_button = QPushButton('Clear')
         self.model_button = QPushButton('Model')
         self.recognise_button = QPushButton('Recognise')
 
+        # Add the predicted digit and set it to be blank
         self.add_predicted_digit()
         self.set_predicted_digit(' ')
 
+        # Set the layout for the widget
         self.add_box_layout()
 
     # Layout function for the central widget
@@ -46,5 +52,6 @@ class CentralWidget(QWidget):
         self.predicted_digit.setFont(font)
         self.predicted_digit.setStyleSheet("border: 1px solid black;") # set border
     
-    def set_predicted_digit(self, d):
-        self.predicted_digit.setText(d)
+    # Set the predicted digit to be displayed from an input
+    def set_predicted_digit(self, digit):
+        self.predicted_digit.setText(digit)
