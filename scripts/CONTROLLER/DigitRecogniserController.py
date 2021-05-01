@@ -1,4 +1,4 @@
-# Controllers for the digit recogniser model module.
+# Controller for the digit recogniser model module.
 
 from AI.DigitRecogniser import *
 from PyQt5.QtCore import QObject, QThread
