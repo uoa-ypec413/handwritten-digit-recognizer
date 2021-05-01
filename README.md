@@ -5,6 +5,10 @@
 
 ***Yulia Pechorina, Keith Anderson***
 
+This is a program developed as a part of the COMPSYS 302 course at the University of Auckland.
+
+It enables the user to train different AI models and then use them to recognise digits which they can draw inside of the software.
+
 ---
 ## Dependencies:
 
