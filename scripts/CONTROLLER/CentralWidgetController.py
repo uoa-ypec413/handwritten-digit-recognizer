@@ -4,6 +4,7 @@ from GUI.CentralWidget import *
 from GUI.Canvas import *
 from GUI.ProbabilityPlot import *
 
+# Controller for the probability plot in the central widget in the main window
 class ProbabilityPlotControl():
     def __init__(self):
         self.plot = ProbabilityPlot()
@@ -11,6 +12,7 @@ class ProbabilityPlotControl():
     def set_probability(self, probabilities):
         self.plot.set_probability(probabilities)
 
+# Controller for the drawing canvas in the central widget in the main window
 class CanvasController():
     def __init__(self):
 
@@ -36,6 +38,7 @@ class CanvasController():
         drawing = self.canvas.pixmap()
         drawing.save('user_data/digit_drawing.jpg', "JPEG" )
 
+# Controller for the central widget in the main window
 class CentralWidgetController():
     def __init__(self, main_window, digit_recogniser_controller):
         # Controller setup
@@ -63,7 +66,7 @@ class CentralWidgetController():
         file_name = QFileDialog.getOpenFileName(self.main_window, "Load Model",
                                        "models/",
                                        "Digit Recognizer Models (*.pt)")
-        if file_name[0]:
+        if file_name[0]: # If path exists (user didn't click cancel)
             self.digit_recogniser_controller.load_model(file_name)
 
     def on_recognise_button_click(self):

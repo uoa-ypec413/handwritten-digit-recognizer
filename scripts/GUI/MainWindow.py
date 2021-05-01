@@ -28,9 +28,11 @@ class MainWindow(QMainWindow):
     def add_menu_bar(self):
         self.menubar = self.menuBar()
 
+        # Set up the file sub-menu
         self.file_menu = self.menubar.addMenu('&File')
         self.file_menu.setToolTipsVisible(True)
 
+        # Option to create a new model under file submenu
         self.new_model_menu = self.file_menu.addMenu('New Model')
         self.basic_nn_action = QAction('Basic NN', self)
         self.new_model_menu.addAction(self.basic_nn_action)
@@ -39,21 +41,26 @@ class MainWindow(QMainWindow):
         self.adjusted_lenet5_action = QAction('Adjusted LeNet-5', self)
         self.new_model_menu.addAction(self.adjusted_lenet5_action)
         
+        # Option to load an existing model under file submenu
         self.load_model_action = QAction('Load Model', self)
         self.load_model_action.setToolTip('Loads an existing model')
         self.file_menu.addAction(self.load_model_action)
 
+        # Option to save the current model under file submenu
         self.save_model_action = QAction('Save Model', self)
         self.file_menu.addAction(self.save_model_action)
 
+        # Option to train the current model under file submenu
         self.train_model_action = QAction('Train Model', self)
         self.file_menu.addAction(self.train_model_action)
 
+        # Option to close the program under file submenu
         self.exit_action = QAction('Quit', self)
         self.exit_action.setShortcut('Ctrl+Q')
         self.exit_action.setToolTip('Quit application')
         self.file_menu.addAction(self.exit_action)
 
+        # View menu setup, with options to view each dataset
         self.view_menu = self.menubar.addMenu('&View')
         self.view_training_images_action = QAction('View Training Images', self)
         self.view_testing_images_action = QAction('View Testing Images', self)

@@ -19,14 +19,17 @@ class ImageFrameController():
 # Controller for the Viewer Window GUI module, creates a viewer window each for the training and testing dataset
 class ViewerWindowController():
     def __init__(self, digit_recogniser_controller):
+        # Create an image frame controller for each dataset
         self.test_image_frame_controller = ImageFrameController()
         self.train_image_frame_controller = ImageFrameController()
         
         self.digit_recogniser_controller = digit_recogniser_controller
 
+        # Create a viewer window for each dataset
         self.test_viewer_window = ViewerWindow(100, name = 'test')
         self.train_viewer_window = ViewerWindow(600, name = 'train')
 
+        # Add scroll area to each viewer window
         self.test_viewer_window.scroll_area.setWidget(self.test_image_frame_controller.image_frame)
         self.train_viewer_window.scroll_area.setWidget(self.train_image_frame_controller.image_frame)
 

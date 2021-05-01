@@ -59,12 +59,12 @@ class MainWindowController():
         file_name = QFileDialog.getOpenFileName(self.main_window, "Load Model",
                                        "models/",
                                        "Digit Recognizer Models (*.pt)")
-        if file_name[0]: # If path isn't empty
+        if file_name[0]: # If path exists (user didn't click cancel)
             self.digit_recogniser_controller.load_model(file_name)
     
     def save_model(self):
         file_name = QFileDialog.getSaveFileName(self.main_window, "Save Model",
                                        "models/new_model.pt",
                                        "Digit Recognizer Models (*.pt)")
-        if file_name[0]: # If path isn't empty
+        if file_name[0]: # If path exists (user didn't click cancel)
             self.digit_recogniser_controller.save_model(file_name)

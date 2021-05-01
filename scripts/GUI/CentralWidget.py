@@ -21,6 +21,7 @@ class CentralWidget(QWidget):
 
     # Layout function for the central widget
     def add_box_layout(self):
+        # Vertically stacked widgets
         vbox = QVBoxLayout()
         vbox.addWidget(self.clear_button)
         vbox.addWidget(self.model_button)
@@ -28,6 +29,7 @@ class CentralWidget(QWidget):
         vbox.addWidget(self.controller.probability_controller.plot)
         vbox.addWidget(self.predicted_digit)
 
+        # Horizontally stacked widgets
         hbox = QHBoxLayout()
         hbox.addWidget(self.controller.canvas_controller.canvas)
         hbox.addLayout(vbox)

@@ -16,6 +16,8 @@ class DownloadWorker(QObject):
         super().__init__()
         self.digit_recogniser = digit_recogniser
 
+    # Download each dataset, reporting progress when appropriate
+    # Known issue: signals enter queue and are only emitted upon completion of download.
     def run(self):
         self.progress.emit(5)
         self.status.emit('Downloading train dataset...\n')
@@ -41,20 +43,26 @@ class TrainWorker(QObject):
     def __init__(self, digit_recogniser):
         super().__init__()
         self.digit_recogniser = digit_recogniser
+        
+        # Signal-slot connections
         self.digit_recogniser.progress_signal.connect(self.update_progress)
         self.digit_recogniser.status_signal.connect(self.update_status)
 
+    # Run the model training routine, reporting progress as appropriate
     def run(self):
         self.status.emit('Beginning Training...\n')
         self.digit_recogniser.data.load_dataset(self.digit_recogniser.batch_size)
         self.digit_recogniser.train_model()
         self.finished.emit()
     
+    # Update progress bar
     def update_progress(self, integer):
         self.progress.emit(integer)
     
+    # Update console
     def update_status(self, string):
         self.status.emit(string)
+
 
 class DigitRecogniserController():
     def __init__(self):
