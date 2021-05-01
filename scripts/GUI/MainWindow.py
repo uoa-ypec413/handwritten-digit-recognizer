@@ -20,10 +20,10 @@ class MainWindow(QMainWindow):
         self.app.quit()
 
     def center(self):
-        qRectangle = self.frameGeometry() # get window geometry
+        window_geometry = self.frameGeometry() # get window geometry
         center_position = QDesktopWidget().availableGeometry().center() # get monitor center position
-        qRectangle.moveCenter(center_position)
-        self.move(qRectangle.topLeft()) # move window to monitor centre position
+        window_geometry.moveCenter(center_position)
+        self.move(window_geometry.topLeft()) # move window to monitor centre position
 
     def add_menu_bar(self):
         self.menubar = self.menuBar()
